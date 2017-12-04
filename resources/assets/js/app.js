@@ -1,22 +1,37 @@
 
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-
 require('./bootstrap');
 
 window.Vue = require('vue');
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
-
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    created(){
+    	var login = localStorage.getItem('login')
+    	if (login) {
+			let objLogin = JSON.parse(login)
+			let that = this
+			axios.post('/oauth/token', {
+				"client_id": 2,
+				"client_secret": "eB8LRhXm02SWG6TxMfkzBplSEPThyUDOprd6yEAo",
+				"grant_type": "password",
+				"username": objLogin.email,
+				"password": objLogin.password
+			})
+				.then(res => {
+					localStorage.removeItem('login');
+					localStorage.setItem('oauth', JSON.stringify(res.data))
+				})
+				.catch(err => {
+					that.logout($event)
+				})
+    	}
+    },
+    methods: {
+    	logout(event){
+    		event.preventDefault()
+    		localStorage.removeItem('oauth');
+    		document.getElementById('logout-form').submit();
+    		// axios.post('/logout')
+    	}
+    }
 });
