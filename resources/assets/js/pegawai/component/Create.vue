@@ -92,18 +92,6 @@
 						}).then(() => {
 							this.$router.push({name: 'index'})
 						})
-					}).catch(error => {
-						var contentHtml = '';
-						Object.keys(error.response.data.errors).forEach((key) => {
-							contentHtml +=  '<p class="text-danger">'+error.response.data.errors[key][0]+'</p>'
-						})
-						
-						this.$swal({
-						  title: error.response.data.message,
-						  html: contentHtml,
-						  type: 'error',
-						  timer: 5000,
-						})
 					})
 				}
 			})

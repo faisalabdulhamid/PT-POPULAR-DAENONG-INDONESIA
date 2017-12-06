@@ -11,9 +11,8 @@
 |
 */
 
-Auth::routes();
 
-// Route::get('/', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
 Route::get('/', function(){
 	return view('home');
 })->name('home')->middleware(['auth']);
@@ -24,3 +23,5 @@ Route::get('supplier', 'SupplierController@index')->middleware(['auth'])->name('
 Route::get('produk', 'ProdukController@index')->middleware(['auth'])->name('produk');
 Route::get('bahan-baku', 'BahanBakuController@index')->middleware(['auth'])->name('bahan-baku');
 Route::get('pesanan', 'PesananController@index')->middleware(['auth'])->name('pesanan');
+
+Auth::routes();

@@ -59,13 +59,9 @@
 					headers: {
 						Authorization: that.token.token_type+' '+that.token.access_token
 					}
+				}).then(res => {
+					Vue.set(that.$data, 'data', res.data)
 				})
-					.then(res => {
-						Vue.set(that.$data, 'data', res.data)
-					})
-					.catch(error => {
-						console.log(error)
-					})
 			},
 		},
 		beforeMount(){

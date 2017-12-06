@@ -76,8 +76,6 @@
 						}
 					}).then(res => {
 						Vue.set(that.$data, 'table', res.data)
-					}).catch(error => {
-						console.log(error)
 					})
 				},
 				next(){
@@ -89,8 +87,6 @@
 					}).then(res => {
 						Vue.set(that.$data, 'model', res.data.data)
 						Vue.set(that.$data, 'table', res.data)
-					}).catch(error => {
-						console.log(error)
 					})
 				},
 				prev(){
@@ -102,8 +98,6 @@
 					}).then(res => {
 						Vue.set(that.$data, 'model', res.data.data)
 						Vue.set(that.$data, 'table', res.data)
-					}).catch(error => {
-						console.log(error)
 					})
 				}
 			}),
@@ -130,8 +124,6 @@
 							}).then(() => {
 								that.getData()
 							})
-						}).catch(err => {
-							console.log(err)
 						})
 					}
 				})

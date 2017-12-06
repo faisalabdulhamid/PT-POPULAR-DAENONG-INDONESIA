@@ -56,8 +56,6 @@
 					}
 				}).then(res => {
 					Vue.set(that.$data, 'data', res.data)
-				}).catch(error => {
-					console.log(error)
 				})
 			},
 		},

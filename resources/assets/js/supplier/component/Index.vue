@@ -75,8 +75,6 @@
 					}
 				}).then(res => {
 					Vue.set(that.$data, 'table', res.data)
-				}).catch(error => {
-					console.log(error)
 				})
 			},
 			next(){

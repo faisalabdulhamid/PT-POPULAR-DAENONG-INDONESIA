@@ -35,8 +35,7 @@
 		        			<thead>
 		        				<tr>
 		        					<th>Bahan Baku</th>
-		        					<th>Jumlah</th>
-		        					<th>#</th>
+		        					<th class="actions">#</th>
 		        				</tr>
 		        			</thead>
 		        			<tbody>
@@ -47,21 +46,11 @@
 		        						</select>
 		        					</td>
 		        					<td>
-		        						<input type="text" class="form-control" v-model="data.bahan_baku[idx].jumlah">
-		        					</td>
-		        					<td>
-		        						<a class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a>
+		        						<a class="btn btn-sm btn-danger" v-on:click="removeBahan(idx)"><i class="fa fa-times"></i></a>
+		        						<a class="btn btn-sm btn-info" v-on:click="addBahan"><i class="fa fa-plus"></i></a>
 		        					</td>
 		        				</tr>
 		        			</tbody>
-		        			<tfoot>
-		        				<tr>
-		        					<th colspan="2"></th>
-		        					<th>
-		        						<a class="btn btn-sm btn-info" v-on:click="addBahan"><i class="fa fa-plus"></i></a>
-		        					</th>
-		        				</tr>
-		        			</tfoot>
 		        		</table>
 		        	</div>
 					
@@ -85,7 +74,7 @@
 			return {
 				data: {
 					bahan_baku: [
-						{bahan_baku_id: '', jumlah: 1},
+						{bahan_baku_id: ''},
 					]
 				},
 				bahan: []
@@ -108,12 +97,13 @@
 					}
 				}).then(res => {
 					Vue.set(that.$data, 'bahan', res.data)
-				}).catch(error => {
-					console.log(error)
 				})
 			},
 			addBahan(){
-
+				this.data.bahan_baku.push({bahan_baku_id: ''});
+			},
+			removeBahan(idx){
+				this.data.bahan_baku.splice(idx, 1)
 			},
 			simpan(){
 				let that = this
@@ -127,19 +117,7 @@
 						type: "success",
 						timer: 5000
 					}).then(() => {
-						this.$router.push({name: 'index'})
-					})
-				}).catch(error => {
-					var contentHtml = '';
-					Object.keys(error.response.data.errors).forEach((key) => {
-						contentHtml +=  '<p class="text-danger">'+error.response.data.errors[key][0]+'</p>'
-					})
-					
-					this.$swal({
-					  title: error.response.data.message,
-					  html: contentHtml,
-					  type: 'error',
-					  timer: 5000,
+						this.getBahan()
 					})
 				})
 			}

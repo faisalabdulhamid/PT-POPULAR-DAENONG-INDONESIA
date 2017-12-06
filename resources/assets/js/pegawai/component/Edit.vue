@@ -86,12 +86,6 @@
 						}
 					}).then(res => {
 						Vue.set(that.$data, 'data', res.data)
-					}).catch(error => {
-						this.$swal({
-						  title: error.response.data.message,
-						  type: 'error',
-						  timer: 5000,
-						})
 					})
 				},
 				simpan(){
@@ -108,19 +102,6 @@
 							timer: 5000,
 						}).then(() => {
 							that.$router.push({name: 'index'})
-						})
-					}).catch(error => {
-						// console.log(error)
-						var contentHtml = '';
-						Object.keys(error.response.data.errors).forEach((key) => {
-							contentHtml +=  '<p class="text-danger">'+error.response.data.errors[key][0]+'</p>'
-						})
-						
-						this.$swal({
-						  title: error.response.data.message,
-						  html: contentHtml,
-						  type: 'error',
-						  timer: 5000,
 						})
 					})
 				}

@@ -14,7 +14,7 @@ return [
     */
 
     'name' => 'PT Popular Daenong Indonesia',
-    'icon' => asset('dist/img/logo.png'),
+    // 'icon' => url('dist/img/logo.png'),
 
     /*
     |--------------------------------------------------------------------------
