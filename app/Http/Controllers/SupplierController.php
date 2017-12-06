@@ -46,15 +46,15 @@ class SupplierController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SupplierRequest $request)
+    public function store(Request $request)
     {
-        // $this->validate($request, [
-        //     'nama' => 'required',
-        //     'email' => 'required|email|unique:supplier',
-        //     'no_telepon' => 'required|unique:supplier|min:12',
-        //     'alamat' => 'required',
-        //     'bahan_baku' => 'required',
-        // ]);
+        $this->validate($request, [
+            'nama' => 'required',
+            'email' => 'required|email|unique:supplier',
+            'no_telepon' => 'required|unique:supplier|min:12',
+            'alamat' => 'required',
+            '*.*.bahan_baku_id' => 'required',
+        ]);
 
         DB::transaction(function () use($request){
             $supplier = new Supplier();
@@ -65,13 +65,9 @@ class SupplierController extends Controller
             $supplier->save();
 
             foreach ($request->bahan_baku as $value) {
-                $supplier->bahanBakus()->attach($value['bahan_baku_id'], [
-                    'jumlah' => $value['jumlah']
-                ]);
+                $supplier->bahanBaku()->attach($value['bahan_baku_id']);
             }
         });
-        
-
 
         return response()->json([
             'message' => 'Data Berhasil Ditambahkan',
@@ -84,9 +80,11 @@ class SupplierController extends Controller
      * @param  \App\Entities\Supplier  $supplier
      * @return \Illuminate\Http\Response
      */
-    public function show(Supplier $supplier)
+    public function show($id)
     {
-        return response()->json($supplier->with('bahanBakus')->get());
+        $supplier = new Supplier();
+        $item = $supplier->with('bahanBaku')->get()->find($id);
+        return response()->json($item);
     }
 
     /**
@@ -95,10 +93,14 @@ class SupplierController extends Controller
      * @param  \App\Entities\Supplier  $supplier
      * @return \Illuminate\Http\Response
      */
-    public function edit(Supplier $supplier)
+    public function edit($id)
     {
-        $item = $supplier->with('bahanBaku')->get();
-
+        // $sup  = $supplier;
+        $supplier = new Supplier();
+        $item = $supplier->with(['bahanBaku' => function($query){
+            $query->select('bahan_baku_id');
+        }])->get()->find($id);
+        
         return response()->json($item);
     }
 
@@ -109,8 +111,15 @@ class SupplierController extends Controller
      * @param  \App\Entities\Supplier  $supplier
      * @return \Illuminate\Http\Response
      */
-    public function update(SupplierUpdateRequest $request, Supplier $supplier)
+    public function update(Request $request, Supplier $supplier)
     {
+        $this->validate($request, [
+            'nama' => 'required',
+            'email' => 'required|email',
+            'no_telepon' => 'required|min:12',
+            'alamat' => 'required',
+            '*.*.bahan_baku_id' => 'required',
+        ]);
 
         DB::transaction(function () use($supplier, $request){
             $supplier->nama = $request->nama;
@@ -118,7 +127,7 @@ class SupplierController extends Controller
             $supplier->no_telepon = $request->no_telepon;
             $supplier->alamat = $request->alamat;
             $supplier->save();
-            $supplier->bahanBakus()->sync($request->bahan_baku);
+            $supplier->bahanBaku()->sync($request->bahan_baku);
         });
 
 

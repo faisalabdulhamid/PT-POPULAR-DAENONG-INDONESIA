@@ -103,7 +103,9 @@
 				this.data.bahan_baku.push({bahan_baku_id: ''});
 			},
 			removeBahan(idx){
-				this.data.bahan_baku.splice(idx, 1)
+				if (this.data.bahan_baku.length > 1) {
+					this.data.bahan_baku.splice(idx, 1)	
+				}
 			},
 			simpan(){
 				let that = this
@@ -117,7 +119,7 @@
 						type: "success",
 						timer: 5000
 					}).then(() => {
-						this.getBahan()
+						this.$router.push({name: 'index'})
 					})
 				})
 			}

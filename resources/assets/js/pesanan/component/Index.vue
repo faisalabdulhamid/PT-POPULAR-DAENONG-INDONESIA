@@ -22,13 +22,13 @@
 	        	<tbody>
 	        		<tr v-for="item in table.data">
 	        			<td>{{ item.tanggal }}</td>
-	        			<td>{{ item.pelanggan }}</td>
+	        			<td>{{ item.nama_pelanggan }}</td>
 	        			<td>{{ item.total_bayar }}</td>
 	        			<td>
 	        				<div class="btn-group btn-group-sm pull-right">
 	        					<router-link class="btn btn-default" :to="{ name: 'show', params: { id: item.id }}"><i class="fa fa-search-plus"></i></router-link>
-	        					<router-link class="btn btn-default" :to="{ name: 'edit', params: { id: item.id }}"><i class="fa fa-edit"></i></router-link>
-	        					<a class="btn btn-default" v-on:click="hapus(item.id)"><i class="fa fa-trash"></i></a>
+	        					<!-- <router-link class="btn btn-default" :to="{ name: 'edit', params: { id: item.id }}"><i class="fa fa-edit"></i></router-link> -->
+	        					<!-- <a class="btn btn-default" v-on:click="hapus(item.id)"><i class="fa fa-trash"></i></a> -->
 	        				</div>
 	        			</td>
 	        		</tr>

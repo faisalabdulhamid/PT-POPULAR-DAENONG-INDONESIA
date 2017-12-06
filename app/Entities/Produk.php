@@ -9,12 +9,12 @@ class Produk extends Model
     protected $table = 'produk';
 
     protected $hidden = [
-    	'created_at', 'updated_at' 
+    	'created_at', 'updated_at', 'pivot'
     ];
 
-    public function bahanBakus()
+    public function bahanBaku()
     {
-    	return $this->belongsToMany(BahanBaku::class, 'detail_produk', 'produk_id', 'bahan_baku_id');
+    	return $this->belongsToMany(BahanBaku::class, 'detail_produk', 'produk_id', 'bahan_baku_id')->withPivot('jumlah');
     }
 
     public function pesanans()

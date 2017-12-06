@@ -16,7 +16,7 @@ class BuatTableDetailBahanBaku extends Migration
         Schema::create('detail_bahan_baku', function (Blueprint $table) {
             // $table->increments('id');
             // $table->timestamps();
-            $table->unsignedInteger('jumlah');
+            // $table->unsignedInteger('jumlah');
             $table->unsignedInteger('supplier_id');
             $table->unsignedInteger('bahan_baku_id');
 

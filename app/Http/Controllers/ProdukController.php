@@ -48,10 +48,11 @@ class ProdukController extends Controller
     {
         $this->validate($request, [
             'nama' => 'required',
-            'warna' => 'required|in:merah,kuning,hijau,putih',
+            'warna' => 'required',
             'gramasi' => 'required',
             'harga' => 'required',
-            'bahan_baku' => 'required'
+            '*.*.bahan_baku_id' => 'required',
+            '*.*.jumlah' => 'required'
         ]);
 
         DB::transaction(function() use ($request){
@@ -80,9 +81,13 @@ class ProdukController extends Controller
      * @param  \App\Entities\Produk  $produk
      * @return \Illuminate\Http\Response
      */
-    public function show(Produk $produk)
+    public function show($id)
     {
-        return response()->json($produk);
+        $produk = new Produk();
+        $item = $produk->with(['bahanBaku' => function($query){
+            $query->select('bahan_baku_id', 'nama', 'jumlah');
+        }])->get()->find($id);
+        return response()->json($item);
     }
 
     /**
@@ -91,9 +96,14 @@ class ProdukController extends Controller
      * @param  \App\Entities\Produk  $produk
      * @return \Illuminate\Http\Response
      */
-    public function edit(Produk $produk)
+    public function edit($id)
     {
-        //
+        $produk = new Produk();
+        $item = $produk->with(['bahanBaku' => function($query){
+            $query->select('bahan_baku_id', 'jumlah');
+        }])->get()->find($id);
+        
+        return response()->json($item);
     }
 
     /**
@@ -107,9 +117,11 @@ class ProdukController extends Controller
     {
         $this->validate($request, [
             'nama' => 'required',
-            'warna' => 'required|in:merah,kuning,hijau,putih',
+            'warna' => 'required',
             'gramasi' => 'required',
             'harga' => 'required',
+            '*.*.bahan_baku_id' => 'required',
+            '*.*.jumlah' => 'required',
         ]);
 
         DB::transaction(function() use ($produk, $request){
@@ -119,7 +131,7 @@ class ProdukController extends Controller
             $produk->harga = $request->harga;
             $produk->save();
 
-            $produk->bahanBakus()->sync($request->bahan_baku);
+            $produk->bahanBaku()->sync($request->bahan_baku);
         });
 
         return response()->json([

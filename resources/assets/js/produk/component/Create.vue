@@ -16,7 +16,11 @@
 	        		<label for="warna" class="col-md-3 control-label">Warna</label>
 	        		<div class="col-md-9">
 	        			<select class="form-control" id="warna" v-model="data.warna">
-	        				
+	        				<option value="Merah">Merah</option>
+	        				<option value="Hijau">Hijau</option>
+	        				<option value="Biru">Biru</option>
+	        				<option value="Hitam">Hitam</option>
+	        				<option value="Kuning">Kuning</option>
 	        			</select>	
 	        		</div>
 	        	</div>
@@ -24,7 +28,11 @@
 	        		<label for="gramasi" class="col-md-3 control-label">Gramasi</label>
 	        		<div class="col-md-9">
 	        			<select class="form-control" id="gramasi" v-model="data.gramasi">
-	        				
+	        				<option value="20 s">20 s</option>
+	        				<option value="25 s">25 s</option>
+	        				<option value="30 s">30 s</option>
+	        				<option value="45 s">45 s</option>
+	        				<option value="40 s">40 s</option>
 	        			</select>
 	        		</div>
 	        	</div>
@@ -40,17 +48,22 @@
 	        				<tr>
 	        					<th>Bahan Baku</th>
 	        					<th>Jumlah</th>
+	        					<th class="actions">#</th>
 	        				</tr>
 	        			</thead>
 	        			<tbody>
 	        				<tr v-for="(item, idx) in data.bahan_baku">
 	        					<td>
 	        						<select class="form-control" v-model="data.bahan_baku[idx].bahan_baku_id">
-	        							<option value=""></option>
+	        							<option v-for="item in bahan" :value="item.id">{{ item.nama }}</option>
 	        						</select>
 	        					</td>
 	        					<td>
 	        						<input type="text" class="form-control" v-model="data.bahan_baku[idx].jumlah">
+	        					</td>
+	        					<td>
+	        						<a class="btn btn-sm btn-danger" v-on:click="removeBahan(idx)"><i class="fa fa-times"></i></a>
+		        					<a class="btn btn-sm btn-info" v-on:click="addBahan"><i class="fa fa-plus"></i></a>
 	        					</td>
 	        				</tr>
 	        			</tbody>
@@ -77,7 +90,8 @@
 					bahan_baku: [
 						{bahan_baku_id: '', jumlah: 1}
 					]
-				}
+				},
+				bahan: []
 			}
 		},
 		computed:{
@@ -89,6 +103,24 @@
 			...mapActions({
 				'Oauth': 'setOauth',
 			}),
+			getBahan(){
+				let that = this
+				that.$http.get('http://localhost:8000/api/select/bahan-baku', {
+					headers: {
+						Authorization: that.token.token_type+' '+that.token.access_token
+					}
+				}).then(res => {
+					Vue.set(that.$data, 'bahan', res.data)
+				})
+			},
+			removeBahan(idx){
+				if (this.data.bahan_baku.length > 1) {
+					this.data.bahan_baku.splice(idx, 1)	
+				}
+			},
+			addBahan(){
+				this.data.bahan_baku.push({bahan_baku_id: '', jumlah: 1})
+			},
 			simpan(){
 				let that = this
 				
@@ -109,6 +141,7 @@
 		},
 		created(){
 			this.Oauth()
+			this.getBahan()
 		},
 		beforeMount(){
 

@@ -26,7 +26,7 @@ _http.interceptors.response.use((response) => {
 }, function (error) {
 	// console.log(error.response)
     // Do something with response error
-    if (error.response.status === 401 || error.response.status === 500) {
+    if (error.response.status === 401 || error.response.status === 500 || error.response.status === 404) {
     	swal(error.response.statusText, error.response.data.message, "error")
     }
     if (error.response.status === 422) {

@@ -36788,6 +36788,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -36839,45 +36845,68 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "panel-body" }, [
         _c("table", { staticClass: "table table-bordered" }, [
-          _c("tbody", [
-            _c("tr", [
-              _c("th", { staticClass: "attr" }, [_vm._v("Nama")]),
+          _c(
+            "tbody",
+            [
+              _c("tr", [
+                _c("th", { staticClass: "attr" }, [_vm._v("Nama")]),
+                _vm._v(" "),
+                _c("td", { staticClass: "titik" }, [_vm._v(":")]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(_vm.data.nama))])
+              ]),
               _vm._v(" "),
-              _c("td", { staticClass: "titik" }, [_vm._v(":")]),
+              _c("tr", [
+                _c("th", [_vm._v("Telepon")]),
+                _vm._v(" "),
+                _c("td", [_vm._v(":")]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(_vm.data.no_telepon))])
+              ]),
               _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(_vm.data.nama))])
-            ]),
-            _vm._v(" "),
-            _c("tr", [
-              _c("th", [_vm._v("Telepon")]),
+              _c("tr", [
+                _c("th", [_vm._v("Email")]),
+                _vm._v(" "),
+                _c("td", [_vm._v(":")]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(_vm.data.email))])
+              ]),
               _vm._v(" "),
-              _c("td", [_vm._v(":")]),
+              _c("tr", [
+                _c("th", [_vm._v("Alamat")]),
+                _vm._v(" "),
+                _c("td", [_vm._v(":")]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(_vm.data.alamat))])
+              ]),
               _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(_vm.data.no_telepon))])
-            ]),
-            _vm._v(" "),
-            _c("tr", [
-              _c("th", [_vm._v("Email")]),
+              _vm._m(0, false, false),
               _vm._v(" "),
-              _c("td", [_vm._v(":")]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(_vm.data.email))])
-            ]),
-            _vm._v(" "),
-            _c("tr", [
-              _c("th", [_vm._v("Alamat")]),
-              _vm._v(" "),
-              _c("td", [_vm._v(":")]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(_vm.data.alamat))])
-            ])
-          ])
+              _vm._l(_vm.data.bahan_baku, function(bahan) {
+                return _c("tr", [
+                  _c("td", { attrs: { colspan: "3" } }, [
+                    _vm._v(_vm._s(bahan.nama))
+                  ])
+                ])
+              })
+            ],
+            2
+          )
         ])
       ])
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", { attrs: { colspan: "3" } }, [_vm._v(" Bahan Baku")])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -37089,7 +37118,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 			this.data.bahan_baku.push({ bahan_baku_id: '' });
 		},
 		removeBahan: function removeBahan(idx) {
-			this.data.bahan_baku.splice(idx, 1);
+			if (this.data.bahan_baku.length > 1) {
+				this.data.bahan_baku.splice(idx, 1);
+			}
 		},
 		simpan: function simpan() {
 			var _this = this;
@@ -37105,7 +37136,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 					type: "success",
 					timer: 5000
 				}).then(function () {
-					_this.getBahan();
+					_this.$router.push({ name: 'index' });
 				});
 			});
 		}
@@ -37588,17 +37619,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -37608,7 +37628,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 	data: function data() {
 		return {
 			data: {
-				bahan_baku: [{ bahan_baku_id: '', jumlah: 1 }]
+				bahan_baku: [{ bahan_baku_id: '' }]
 			},
 			bahan: []
 		};
@@ -37650,7 +37670,14 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 				console.log(error);
 			});
 		},
-		addBahan: function addBahan() {},
+		addBahan: function addBahan() {
+			this.data.bahan_baku.push({ bahan_baku_id: '' });
+		},
+		removeBahan: function removeBahan(idx) {
+			if (this.data.bahan_baku.length > 1) {
+				this.data.bahan_baku.splice(idx, 1);
+			}
+		},
 		simpan: function simpan() {
 			var _this2 = this;
 
@@ -37905,54 +37932,31 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.data.bahan_baku[idx].jumlah,
-                            expression: "data.bahan_baku[idx].jumlah"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { type: "text" },
-                        domProps: { value: _vm.data.bahan_baku[idx].jumlah },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+                      _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-sm btn-danger",
+                          on: {
+                            click: function($event) {
+                              _vm.removeBahan(idx)
                             }
-                            _vm.$set(
-                              _vm.data.bahan_baku[idx],
-                              "jumlah",
-                              $event.target.value
-                            )
                           }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _vm._m(2, true, false)
+                        },
+                        [_c("i", { staticClass: "fa fa-times" })]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-sm btn-info",
+                          on: { click: _vm.addBahan }
+                        },
+                        [_c("i", { staticClass: "fa fa-plus" })]
+                      )
+                    ])
                   ])
                 })
-              ),
-              _vm._v(" "),
-              _c("tfoot", [
-                _c("tr", [
-                  _c("th", { attrs: { colspan: "2" } }),
-                  _vm._v(" "),
-                  _c("th", [
-                    _c(
-                      "a",
-                      {
-                        staticClass: "btn btn-sm btn-info",
-                        on: { click: _vm.addBahan }
-                      },
-                      [_c("i", { staticClass: "fa fa-plus" })]
-                    )
-                  ])
-                ])
-              ])
+              )
             ])
           ]),
           _vm._v(" "),
@@ -38001,19 +38005,7 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("Bahan Baku")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Jumlah")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("#")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("a", { staticClass: "btn btn-sm btn-danger" }, [
-        _c("i", { staticClass: "fa fa-times" })
+        _c("th", { staticClass: "actions" }, [_vm._v("#")])
       ])
     ])
   }

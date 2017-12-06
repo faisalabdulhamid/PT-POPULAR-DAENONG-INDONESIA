@@ -26,6 +26,13 @@
 		        			<td>:</td>
 		        			<td>{{ data.alamat }}</td>
 		        		</tr>
+		        		<tr>
+		        			<th colspan="3">History Pesanan</th>
+		        		</tr>
+		        		<tr>
+		        			<td>Tanggal</td>
+		        			<td colspan="2">Total Bayar</td>
+		        		</tr>
 		        	</tbody>
 		        </table>
 		    </div>

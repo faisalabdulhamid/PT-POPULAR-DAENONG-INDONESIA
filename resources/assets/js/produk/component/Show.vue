@@ -26,6 +26,13 @@
 		        			<td>:</td>
 		        			<td>{{ data.harga }}</td>
 		        		</tr>
+		        		<tr>
+		        			<th colspan="3">Bahan Baku</th>
+		        		</tr>
+		        		<tr v-for="item in data.bahan_baku">
+		        			<td colspan="2">{{ item.nama }}</td>
+		        			<td>{{ item.jumlah }}</td>
+		        		</tr>
 		        	</tbody>
 		        </table>
 		    </div>

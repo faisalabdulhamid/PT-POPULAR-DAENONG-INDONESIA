@@ -1,30 +1,45 @@
 <template>
 	<div>
 		<div class="panel panel-default">
-		    <div class="panel-heading">Lihat Produk</div>
+		    <div class="panel-heading">Lihat Pesanan</div>
 
 		    <div class="panel-body">
 		        <table class="table table-bordered">
 		        	<tbody>
 		        		<tr>
-		        			<th class="attr">Nama</th>
+		        			<th class="attr">Nama Perusahaan</th>
 		        			<td class="titik">:</td>
-		        			<td>{{ data.nama }}</td>
+		        			<td>{{ data.nama_pelanggan }}</td>
 		        		</tr>
 		        		<tr>
-		        			<th>Warna</th>
+		        			<th>Tanggal Pesanan</th>
 		        			<td>:</td>
-		        			<td>{{ data.warna }}</td>
+		        			<td colspan="2">{{ data.tanggal }}</td>
 		        		</tr>
 		        		<tr>
-		        			<th>Gramasi</th>
+		        			<th>Total Bayar</th>
 		        			<td>:</td>
-		        			<td>{{ data.gramasi }}</td>
+		        			<td colspan="2">{{ data.total_bayar }}</td>
 		        		</tr>
 		        		<tr>
+		        			<th>Status</th>
+		        			<td>:</td>
+		        			<td colspan="2">{{ data.status }}</td>
+		        		</tr>
+		        		<tr>
+		        			<th colspan="4">Produk</th>
+		        		</tr>
+		        		<tr>
+		        			<th>Nama </th>
+		        			<th>Qty</th>
 		        			<th>Harga</th>
-		        			<td>:</td>
-		        			<td>{{ data.harga }}</td>
+		        			<th>SubTotal</th>
+		        		</tr>
+		        		<tr v-for="item in data.produks">
+		        			<td>{{item.nama}}</td>
+		        			<td>{{item.jumlah}}</td>
+		        			<td>{{item.harga}}</td>
+		        			<td>{{item.harga * item.jumlah}}</td>
 		        		</tr>
 		        	</tbody>
 		        </table>

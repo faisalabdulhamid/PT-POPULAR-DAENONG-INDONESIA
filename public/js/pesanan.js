@@ -36100,7 +36100,7 @@ _http.interceptors.response.use(function (response) {
 }, function (error) {
     // console.log(error.response)
     // Do something with response error
-    if (error.response.status === 401 || error.response.status === 500) {
+    if (error.response.status === 401 || error.response.status === 500 || error.response.status === 404) {
         swal(error.response.statusText, error.response.data.message, "error");
     }
     if (error.response.status === 422) {
@@ -36553,7 +36553,7 @@ var render = function() {
             return _c("tr", [
               _c("td", [_vm._v(_vm._s(item.tanggal))]),
               _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(item.pelanggan))]),
+              _c("td", [_vm._v(_vm._s(item.nama_pelanggan))]),
               _vm._v(" "),
               _c("td", [_vm._v(_vm._s(item.total_bayar))]),
               _vm._v(" "),
@@ -36569,28 +36569,6 @@ var render = function() {
                         attrs: { to: { name: "show", params: { id: item.id } } }
                       },
                       [_c("i", { staticClass: "fa fa-search-plus" })]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "router-link",
-                      {
-                        staticClass: "btn btn-default",
-                        attrs: { to: { name: "edit", params: { id: item.id } } }
-                      },
-                      [_c("i", { staticClass: "fa fa-edit" })]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "a",
-                      {
-                        staticClass: "btn btn-default",
-                        on: {
-                          click: function($event) {
-                            _vm.hapus(item.id)
-                          }
-                        }
-                      },
-                      [_c("i", { staticClass: "fa fa-trash" })]
                     )
                   ],
                   1
@@ -36818,6 +36796,21 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -36863,49 +36856,96 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("div", { staticClass: "panel panel-default" }, [
-      _c("div", { staticClass: "panel-heading" }, [_vm._v("Lihat Produk")]),
+      _c("div", { staticClass: "panel-heading" }, [_vm._v("Lihat Pesanan")]),
       _vm._v(" "),
       _c("div", { staticClass: "panel-body" }, [
         _c("table", { staticClass: "table table-bordered" }, [
-          _c("tbody", [
-            _c("tr", [
-              _c("th", { staticClass: "attr" }, [_vm._v("Nama")]),
+          _c(
+            "tbody",
+            [
+              _c("tr", [
+                _c("th", { staticClass: "attr" }, [_vm._v("Nama Perusahaan")]),
+                _vm._v(" "),
+                _c("td", { staticClass: "titik" }, [_vm._v(":")]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(_vm.data.nama_pelanggan))])
+              ]),
               _vm._v(" "),
-              _c("td", { staticClass: "titik" }, [_vm._v(":")]),
+              _c("tr", [
+                _c("th", [_vm._v("Tanggal Pesanan")]),
+                _vm._v(" "),
+                _c("td", [_vm._v(":")]),
+                _vm._v(" "),
+                _c("td", { attrs: { colspan: "2" } }, [
+                  _vm._v(_vm._s(_vm.data.tanggal))
+                ])
+              ]),
               _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(_vm.data.nama))])
-            ]),
-            _vm._v(" "),
-            _c("tr", [
-              _c("th", [_vm._v("Warna")]),
+              _c("tr", [
+                _c("th", [_vm._v("Total Bayar")]),
+                _vm._v(" "),
+                _c("td", [_vm._v(":")]),
+                _vm._v(" "),
+                _c("td", { attrs: { colspan: "2" } }, [
+                  _vm._v(_vm._s(_vm.data.total_bayar))
+                ])
+              ]),
               _vm._v(" "),
-              _c("td", [_vm._v(":")]),
+              _c("tr", [
+                _c("th", [_vm._v("Status")]),
+                _vm._v(" "),
+                _c("td", [_vm._v(":")]),
+                _vm._v(" "),
+                _c("td", { attrs: { colspan: "2" } }, [
+                  _vm._v(_vm._s(_vm.data.status))
+                ])
+              ]),
               _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(_vm.data.warna))])
-            ]),
-            _vm._v(" "),
-            _c("tr", [
-              _c("th", [_vm._v("Gramasi")]),
+              _vm._m(0, false, false),
               _vm._v(" "),
-              _c("td", [_vm._v(":")]),
+              _vm._m(1, false, false),
               _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(_vm.data.gramasi))])
-            ]),
-            _vm._v(" "),
-            _c("tr", [
-              _c("th", [_vm._v("Harga")]),
-              _vm._v(" "),
-              _c("td", [_vm._v(":")]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(_vm.data.harga))])
-            ])
-          ])
+              _vm._l(_vm.data.produks, function(item) {
+                return _c("tr", [
+                  _c("td", [_vm._v(_vm._s(item.nama))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(item.jumlah))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(item.harga))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(item.harga * item.jumlah))])
+                ])
+              })
+            ],
+            2
+          )
         ])
       ])
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [_c("th", { attrs: { colspan: "4" } }, [_vm._v("Produk")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("Nama ")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Qty")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Harga")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("SubTotal")])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -37090,6 +37130,16 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -37098,8 +37148,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 	data: function data() {
 		return {
 			data: {
+				total_bayar: 0,
 				produk: [{ produk_id: '', jumlah: 1 }]
-			}
+			},
+			pelanggan: [],
+			produk: [{ id: '', harga: 0 }],
+			form: [{ id: '', harga: 0 }]
 		};
 	},
 
@@ -37109,6 +37163,63 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 	methods: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapActions */])({
 		'Oauth': 'setOauth'
 	}), {
+		getPelanggan: function getPelanggan() {
+			var that = this;
+			that.$http.get('http://localhost:8000/api/select/pelanggan', {
+				headers: {
+					Authorization: that.token.token_type + ' ' + that.token.access_token
+				}
+			}).then(function (res) {
+				Vue.set(that.$data, 'pelanggan', res.data);
+			});
+		},
+		addProduk: function addProduk() {
+			this.data.produk.push({ produk_id: '', jumlah: 1 });
+			this.form.push({ id: '', harga: 0 });
+		},
+		removeProduk: function removeProduk(idx) {
+			if (this.data.produk.length > 1) {
+				this.data.produk.splice(idx, 1);
+				this.form.splice(idx, 1);
+			}
+		},
+		getProduk: function getProduk() {
+			var that = this;
+			that.$http.get('http://localhost:8000/api/select/produk', {
+				headers: {
+					Authorization: that.token.token_type + ' ' + that.token.access_token
+				}
+			}).then(function (res) {
+				Vue.set(that.$data, 'produk', res.data);
+			});
+		},
+		UpdateProduk: function UpdateProduk(event, idx) {
+
+			var _find = this.produk.find(function (o) {
+				return o.id == event.target.value;
+			});
+
+			this.form[idx].id = _find.id;
+			this.form[idx].harga = _find.harga;
+			this.data.produk[idx].sub_total = _find.harga * this.data.produk[idx].jumlah;
+
+			this._total();
+		},
+		updateQty: function updateQty(event, idx) {
+			this.data.produk[idx].sub_total = event.target.value * this.form[idx].harga;
+			this._total();
+		},
+		sub_total: function sub_total(idx) {
+			this.form[idx].sub_total = this.data.produk[idx].jumlah * this.form[idx].harga;
+			return this.data.produk[idx].jumlah * this.form[idx].harga;
+		},
+		_total: function _total() {
+			var tot = 0;
+			this.data.produk.forEach(function (val, key) {
+				tot += val.sub_total;
+			});
+			this.data.total_bayar = tot;
+		},
 		simpan: function simpan() {
 			var _this = this;
 
@@ -37131,8 +37242,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 	}),
 	created: function created() {
 		this.Oauth();
-	},
-	beforeMount: function beforeMount() {}
+		this.getPelanggan();
+		this.getProduk();
+	}
 });
 
 /***/ }),
@@ -37170,70 +37282,45 @@ var render = function() {
             ),
             _vm._v(" "),
             _c("div", { staticClass: "col-md-9" }, [
-              _c("select", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.data.pelanggan,
-                    expression: "data.pelanggan"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { id: "pelanggan" },
-                on: {
-                  change: function($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function(o) {
-                        return o.selected
-                      })
-                      .map(function(o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.$set(
-                      _vm.data,
-                      "pelanggan",
-                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                    )
-                  }
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c(
-              "label",
-              {
-                staticClass: "col-md-3 control-label",
-                attrs: { for: "tanggal" }
-              },
-              [_vm._v("Tanggal")]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-9" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.data.tanggal,
-                    expression: "data.tanggal"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", id: "tanggal" },
-                domProps: { value: _vm.data.tanggal },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.data.pelanggan,
+                      expression: "data.pelanggan"
                     }
-                    _vm.$set(_vm.data, "tanggal", $event.target.value)
+                  ],
+                  staticClass: "form-control",
+                  attrs: { id: "pelanggan" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.data,
+                        "pelanggan",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
                   }
-                }
-              })
+                },
+                _vm._l(_vm.pelanggan, function(item) {
+                  return _c("option", { domProps: { value: item.id } }, [
+                    _vm._v(_vm._s(item.nama_perusahaan))
+                  ])
+                })
+              )
             ])
           ]),
           _vm._v(" "),
@@ -37273,6 +37360,63 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "form-group" }, [
+            _c(
+              "label",
+              {
+                staticClass: "col-md-3 control-label",
+                attrs: { for: "status" }
+              },
+              [_vm._v("Status")]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-9" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.data.status,
+                      expression: "data.status"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { id: "status" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.data,
+                        "status",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                [
+                  _c("option", { attrs: { value: "lunas" } }, [
+                    _vm._v("lunas")
+                  ]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "belum lunas" } }, [
+                    _vm._v("belum lunas")
+                  ])
+                ]
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
             _c("table", { staticClass: "table table-bordered" }, [
               _vm._m(1, false, false),
               _vm._v(" "),
@@ -37294,27 +37438,44 @@ var render = function() {
                               }
                             ],
                             staticClass: "form-control",
+                            attrs: { name: "produk" },
                             on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.$set(
-                                  _vm.data.produk[idx],
-                                  "produk_id",
-                                  $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                )
-                              }
+                              change: [
+                                function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.data.produk[idx],
+                                    "produk_id",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                },
+                                function($event) {
+                                  _vm.UpdateProduk($event, idx)
+                                }
+                              ]
                             }
                           },
-                          [_c("option", { attrs: { value: "" } })]
+                          _vm._l(_vm.produk, function(item) {
+                            return _c(
+                              "option",
+                              {
+                                key: item.id,
+                                attrs: { "data-harga": item.harga },
+                                domProps: { value: item.id }
+                              },
+                              [_vm._v(_vm._s(item.nama))]
+                            )
+                          })
                         )
                       ]),
                       _vm._v(" "),
@@ -37332,35 +37493,92 @@ var render = function() {
                           attrs: { type: "text" },
                           domProps: { value: _vm.data.produk[idx].jumlah },
                           on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
+                            input: [
+                              function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.data.produk[idx],
+                                  "jumlah",
+                                  $event.target.value
+                                )
+                              },
+                              function($event) {
+                                _vm.updateQty($event, idx)
                               }
-                              _vm.$set(
-                                _vm.data.produk[idx],
-                                "jumlah",
-                                $event.target.value
-                              )
-                            }
+                            ]
                           }
                         })
                       ]),
                       _vm._v(" "),
                       _c("td", [
                         _vm._v(
-                          "\n\t        \t\t\t\t\t\t20\n\t        \t\t\t\t\t"
+                          "\n\t        \t\t\t\t\t\t" +
+                            _vm._s(_vm.form[idx].harga) +
+                            "\n\t        \t\t\t\t\t"
                         )
                       ]),
                       _vm._v(" "),
                       _c("td", [
-                        _vm._v(
-                          "\n\t        \t\t\t\t\t\t20\n\t        \t\t\t\t\t"
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: item.sub_total,
+                              expression: "item.sub_total"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text", readonly: "" },
+                          domProps: { value: item.sub_total },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(item, "sub_total", $event.target.value)
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "btn btn-danger btn-sm",
+                            on: {
+                              click: function($event) {
+                                _vm.removeProduk(idx)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fa fa-times" })]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "a",
+                          {
+                            staticClass: "btn btn-info btn-sm",
+                            on: { click: _vm.addProduk }
+                          },
+                          [_c("i", { staticClass: "fa fa-plus" })]
                         )
                       ])
                     ])
                   }),
                   _vm._v(" "),
-                  _vm._m(2, false, false)
+                  _c("tr", [
+                    _c(
+                      "th",
+                      { staticClass: "text-right", attrs: { colspan: "3" } },
+                      [_vm._v("Total")]
+                    ),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(_vm.data.total_bayar))])
+                  ])
                 ],
                 2
               )
@@ -37416,18 +37634,10 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Harga")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Sub Total")])
+        _c("th", [_vm._v("Sub Total")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "actions" }, [_vm._v("#")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", { attrs: { colspan: "3" } }, [_vm._v("Total")]),
-      _vm._v(" "),
-      _c("td", [_vm._v("Rp.2323")])
     ])
   }
 ]

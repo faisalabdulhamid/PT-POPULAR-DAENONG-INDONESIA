@@ -9,7 +9,7 @@ class BahanBaku extends Model
     protected $table = 'bahan_baku';
 
     protected $hidden = [
-        'created_at', 'updated_at'
+        'created_at', 'updated_at', 'pivot'
     ];
     
     public function pegawai()

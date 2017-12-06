@@ -117,7 +117,7 @@ class BahanBakuController extends Controller
      */
     public function destroy(BahanBaku $bahanBaku)
     {
-        $bahanBaku_>delete();
+        $bahanBaku->delete();
 
         return response()->json([
             'message' => 'Data Berhasil Diubah'

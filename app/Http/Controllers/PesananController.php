@@ -47,10 +47,12 @@ class PesananController extends Controller
     {
         $this->validate($request, [
             'pelanggan' => 'required',
-            'tanggal' => 'required|date',
+            // 'tanggal' => 'required|date',
             'total_bayar' => 'required',
             'status' => 'required',
-            'produk' => 'required'
+            '*.*.produk_id' => 'required',
+            '*.*.jumlah' => 'required',
+            '*.*.sub_total' => 'required',
         ]);
 
         DB::transaction(function() use($request){
@@ -62,7 +64,7 @@ class PesananController extends Controller
             $pesanan->save();
 
             foreach ($request->produk as $val) {
-                $pesanan->produks()->attach($val['produk_id'], ['jumlah' => $val['jumlah']]);
+                $pesanan->produks()->attach($val['produk_id'], ['jumlah' => $val['jumlah'], 'sub_total'=>$val['sub_total']]);
             }
             
         });
@@ -78,8 +80,11 @@ class PesananController extends Controller
      * @param  \App\Entities\Pesanan  $pesanan
      * @return \Illuminate\Http\Response
      */
-    public function show(Pesanan $pesanan)
+    public function show($id)
     {
+        $pesanan = Pesanan::with(['produks' => function($query){
+            $query->select('nama', 'harga', 'warna', 'jumlah');
+        }])->get()->find($id);
         return response()->json($pesanan);    
     }
 

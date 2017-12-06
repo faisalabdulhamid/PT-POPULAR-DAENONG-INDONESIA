@@ -36721,6 +36721,13 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -36770,45 +36777,70 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "panel-body" }, [
         _c("table", { staticClass: "table table-bordered" }, [
-          _c("tbody", [
-            _c("tr", [
-              _c("th", { staticClass: "attr" }, [_vm._v("Nama")]),
+          _c(
+            "tbody",
+            [
+              _c("tr", [
+                _c("th", { staticClass: "attr" }, [_vm._v("Nama")]),
+                _vm._v(" "),
+                _c("td", { staticClass: "titik" }, [_vm._v(":")]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(_vm.data.nama))])
+              ]),
               _vm._v(" "),
-              _c("td", { staticClass: "titik" }, [_vm._v(":")]),
+              _c("tr", [
+                _c("th", [_vm._v("Warna")]),
+                _vm._v(" "),
+                _c("td", [_vm._v(":")]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(_vm.data.warna))])
+              ]),
               _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(_vm.data.nama))])
-            ]),
-            _vm._v(" "),
-            _c("tr", [
-              _c("th", [_vm._v("Warna")]),
+              _c("tr", [
+                _c("th", [_vm._v("Gramasi")]),
+                _vm._v(" "),
+                _c("td", [_vm._v(":")]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(_vm.data.gramasi))])
+              ]),
               _vm._v(" "),
-              _c("td", [_vm._v(":")]),
+              _c("tr", [
+                _c("th", [_vm._v("Harga")]),
+                _vm._v(" "),
+                _c("td", [_vm._v(":")]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(_vm.data.harga))])
+              ]),
               _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(_vm.data.warna))])
-            ]),
-            _vm._v(" "),
-            _c("tr", [
-              _c("th", [_vm._v("Gramasi")]),
+              _vm._m(0, false, false),
               _vm._v(" "),
-              _c("td", [_vm._v(":")]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(_vm.data.gramasi))])
-            ]),
-            _vm._v(" "),
-            _c("tr", [
-              _c("th", [_vm._v("Harga")]),
-              _vm._v(" "),
-              _c("td", [_vm._v(":")]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(_vm.data.harga))])
-            ])
-          ])
+              _vm._l(_vm.data.bahan_baku, function(item) {
+                return _c("tr", [
+                  _c("td", { attrs: { colspan: "2" } }, [
+                    _vm._v(_vm._s(item.nama))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(item.jumlah))])
+                ])
+              })
+            ],
+            2
+          )
         ])
       ])
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", { attrs: { colspan: "3" } }, [_vm._v("Bahan Baku")])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -36987,6 +37019,19 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -36996,7 +37041,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 		return {
 			data: {
 				bahan_baku: [{ bahan_baku_id: '', jumlah: 1 }]
-			}
+			},
+			bahan: []
 		};
 	},
 
@@ -37006,6 +37052,24 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 	methods: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapActions */])({
 		'Oauth': 'setOauth'
 	}), {
+		getBahan: function getBahan() {
+			var that = this;
+			that.$http.get('http://localhost:8000/api/select/bahan-baku', {
+				headers: {
+					Authorization: that.token.token_type + ' ' + that.token.access_token
+				}
+			}).then(function (res) {
+				Vue.set(that.$data, 'bahan', res.data);
+			});
+		},
+		removeBahan: function removeBahan(idx) {
+			if (this.data.bahan_baku.length > 1) {
+				this.data.bahan_baku.splice(idx, 1);
+			}
+		},
+		addBahan: function addBahan() {
+			this.data.bahan_baku.push({ bahan_baku_id: '', jumlah: 1 });
+		},
 		simpan: function simpan() {
 			var _this = this;
 
@@ -37028,6 +37092,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 	}),
 	created: function created() {
 		this.Oauth();
+		this.getBahan();
 	},
 	beforeMount: function beforeMount() {}
 });
@@ -37099,35 +37164,59 @@ var render = function() {
             ),
             _vm._v(" "),
             _c("div", { staticClass: "col-md-9" }, [
-              _c("select", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.data.warna,
-                    expression: "data.warna"
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.data.warna,
+                      expression: "data.warna"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { id: "warna" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.data,
+                        "warna",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
                   }
-                ],
-                staticClass: "form-control",
-                attrs: { id: "warna" },
-                on: {
-                  change: function($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function(o) {
-                        return o.selected
-                      })
-                      .map(function(o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.$set(
-                      _vm.data,
-                      "warna",
-                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                    )
-                  }
-                }
-              })
+                },
+                [
+                  _c("option", { attrs: { value: "Merah" } }, [
+                    _vm._v("Merah")
+                  ]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "Hijau" } }, [
+                    _vm._v("Hijau")
+                  ]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "Biru" } }, [_vm._v("Biru")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "Hitam" } }, [
+                    _vm._v("Hitam")
+                  ]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "Kuning" } }, [
+                    _vm._v("Kuning")
+                  ])
+                ]
+              )
             ])
           ]),
           _vm._v(" "),
@@ -37142,35 +37231,51 @@ var render = function() {
             ),
             _vm._v(" "),
             _c("div", { staticClass: "col-md-9" }, [
-              _c("select", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.data.gramasi,
-                    expression: "data.gramasi"
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.data.gramasi,
+                      expression: "data.gramasi"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { id: "gramasi" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.data,
+                        "gramasi",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
                   }
-                ],
-                staticClass: "form-control",
-                attrs: { id: "gramasi" },
-                on: {
-                  change: function($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function(o) {
-                        return o.selected
-                      })
-                      .map(function(o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.$set(
-                      _vm.data,
-                      "gramasi",
-                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                    )
-                  }
-                }
-              })
+                },
+                [
+                  _c("option", { attrs: { value: "20 s" } }, [_vm._v("20 s")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "25 s" } }, [_vm._v("25 s")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "30 s" } }, [_vm._v("30 s")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "45 s" } }, [_vm._v("45 s")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "40 s" } }, [_vm._v("40 s")])
+                ]
+              )
             ])
           ]),
           _vm._v(" "),
@@ -37250,7 +37355,13 @@ var render = function() {
                             }
                           }
                         },
-                        [_c("option", { attrs: { value: "" } })]
+                        _vm._l(_vm.bahan, function(item) {
+                          return _c(
+                            "option",
+                            { domProps: { value: item.id } },
+                            [_vm._v(_vm._s(item.nama))]
+                          )
+                        })
                       )
                     ]),
                     _vm._v(" "),
@@ -37280,6 +37391,30 @@ var render = function() {
                           }
                         }
                       })
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-sm btn-danger",
+                          on: {
+                            click: function($event) {
+                              _vm.removeBahan(idx)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fa fa-times" })]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-sm btn-info",
+                          on: { click: _vm.addBahan }
+                        },
+                        [_c("i", { staticClass: "fa fa-plus" })]
+                      )
                     ])
                   ])
                 })
@@ -37332,7 +37467,9 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("Bahan Baku")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Jumlah")])
+        _c("th", [_vm._v("Jumlah")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "actions" }, [_vm._v("#")])
       ])
     ])
   }
@@ -37524,6 +37661,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -37534,7 +37676,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 		return {
 			data: {
 				bahan_baku: [{ bahan_baku_id: '', jumlah: 1 }]
-			}
+			},
+			bahan: []
 		};
 	},
 
@@ -37544,9 +37687,27 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 	methods: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapActions */])({
 		'Oauth': 'setOauth'
 	}), {
+		getBahan: function getBahan() {
+			var that = this;
+			that.$http.get('http://localhost:8000/api/select/bahan-baku', {
+				headers: {
+					Authorization: that.token.token_type + ' ' + that.token.access_token
+				}
+			}).then(function (res) {
+				Vue.set(that.$data, 'bahan', res.data);
+			});
+		},
+		removeBahan: function removeBahan(idx) {
+			if (this.data.bahan_baku.length > 1) {
+				this.data.bahan_baku.splice(idx, 1);
+			}
+		},
+		addBahan: function addBahan() {
+			this.data.bahan_baku.push({ bahan_baku_id: '', jumlah: 1 });
+		},
 		getData: function getData() {
 			var that = this;
-			that.$http.get('/' + that.id, {
+			that.$http.get('/' + that.id + '/edit', {
 				headers: {
 					Authorization: that.token.token_type + ' ' + that.token.access_token
 				}
@@ -37576,6 +37737,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 	},
 	beforeMount: function beforeMount() {
 		this.getData();
+		this.getBahan();
 	}
 });
 
@@ -37837,7 +37999,13 @@ var render = function() {
                             }
                           }
                         },
-                        [_c("option", { attrs: { value: "" } })]
+                        _vm._l(_vm.bahan, function(item) {
+                          return _c(
+                            "option",
+                            { domProps: { value: item.id } },
+                            [_vm._v(_vm._s(item.nama))]
+                          )
+                        })
                       )
                     ]),
                     _vm._v(" "),
@@ -37867,6 +38035,30 @@ var render = function() {
                           }
                         }
                       })
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-sm btn-danger",
+                          on: {
+                            click: function($event) {
+                              _vm.removeBahan(idx)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fa fa-times" })]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-sm btn-info",
+                          on: { click: _vm.addBahan }
+                        },
+                        [_c("i", { staticClass: "fa fa-plus" })]
+                      )
                     ])
                   ])
                 })
@@ -37919,7 +38111,9 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("Bahan Baku")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Jumlah")])
+        _c("th", [_vm._v("Jumlah")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "actions" }, [_vm._v("#")])
       ])
     ])
   }

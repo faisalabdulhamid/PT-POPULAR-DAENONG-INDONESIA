@@ -30,4 +30,12 @@ Route::group(['prefix'=>'select', 'middleware'=> 'auth:api'], function(){
 		$bahan = App\Entities\BahanBaku::all();
 		return response()->json($bahan);
 	});	
+	Route::get('/pelanggan', function(){
+		$pelanggan = App\Entities\Pelanggan::all();
+		return response()->json($pelanggan);
+	});	
+	Route::get('/produk', function(){
+		$produk = App\Entities\Produk::all();
+		return response()->json($produk);
+	});
 });

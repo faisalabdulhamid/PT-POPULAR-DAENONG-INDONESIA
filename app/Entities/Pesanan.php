@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Pesanan extends Model
 {
     protected $table = 'pesanan';
+    protected $appends = ['nama_pelanggan'];
 
     protected $hidden = [
         'created_at', 'updated_at'
@@ -19,12 +20,17 @@ class Pesanan extends Model
 
     public function pelanggan()
     {
-    	// return $this->belongTo(Pelanggan::class, 'pelanggan_id');
-    	return $this->hasOne(Pelanggan::class, 'pelanggan_id');
+    	return $this->belongsTo(Pelanggan::class, 'pelanggan_id');
     }
 
     public function pegawai()
     {
     	return $this->belongTo(Pegawai::class, 'pegawai_id');
+    }
+
+    public function getNamaPelangganAttribute()
+    {
+        // $pelanggan = ;
+        return $this->pelanggan()->first()->nama_perusahaan;
     }
 }
