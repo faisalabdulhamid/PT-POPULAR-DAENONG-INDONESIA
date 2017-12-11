@@ -8,7 +8,7 @@
 
 <script>
 export default {
-	name: "AppPelanggan"
+	name: "App"
 }
 </script>
 

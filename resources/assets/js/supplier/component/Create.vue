@@ -66,10 +66,10 @@
 </template>
 
 <script>
-	import { mapActions, mapGetters} from 'vuex'
-
+	import {base_url} from './../../config/env.config'
+	
 	export default{
-		name: "CreateSupplier",
+		name: "Create",
 		data(){
 			return {
 				data: {
@@ -80,22 +80,11 @@
 				bahan: []
 			}
 		},
-		computed:{
-			...mapGetters({
-				token: 'oauth'
-			})
-		},
 		methods:{
-			...mapActions({
-				'Oauth': 'setOauth',
-			}),
 			getBahan(){
 				let that = this
-				that.$http.get('http://localhost:8000/api/select/bahan-baku', {
-					headers: {
-						Authorization: that.token.token_type+' '+that.token.access_token
-					}
-				}).then(res => {
+				that.$http.get(base_url+'api/select/bahan-baku')
+				.then(res => {
 					Vue.set(that.$data, 'bahan', res.data)
 				})
 			},
@@ -109,11 +98,8 @@
 			},
 			simpan(){
 				let that = this
-				that.$http.post('', that.data,{
-					headers: {
-						Authorization: that.token.token_type+' '+that.token.access_token
-					}
-				}).then(res => {
+				that.$http.post('', that.data)
+				.then(res => {
 					this.$swal({
 						text: res.data.message,
 						type: "success",
@@ -124,12 +110,8 @@
 				})
 			}
 		},
-		created(){
-			this.Oauth()
-			this.getBahan()
-		},
 		beforeMount(){
-
+			this.getBahan()
 		}
 	}
 </script>

@@ -1,10 +1,11 @@
 {
     "/js/supplier.js": "/js/supplier.js",
     "/js/produk.js": "/js/produk.js",
-    "/js/pesanan.js": "/js/pesanan.js",
     "/js/pelanggan.js": "/js/pelanggan.js",
     "/js/pegawai.js": "/js/pegawai.js",
     "/js/bahan-baku.js": "/js/bahan-baku.js",
-    "/js/login.js": "/js/login.js",
-    "/js/app.js": "/js/app.js"
+    "/js/pesanan.js": "/js/pesanan.js",
+    "/js/pembelian.js": "/js/pembelian.js",
+    "/js/produksi.js": "/js/produksi.js",
+    "/js/login.js": "/js/login.js"
 }

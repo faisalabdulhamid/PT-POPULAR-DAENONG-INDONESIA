@@ -83,10 +83,10 @@
 </template>
 
 <script>
-	import { mapActions, mapGetters} from 'vuex'
-
+	import {base_url} from './../../config/env.config'
+	
 	export default{
-		name: "CreatePesanan",
+		name: "Create",
 		data(){
 			return {
 				data: {
@@ -102,22 +102,11 @@
 				form: [{id: '', harga: 0}],
 			}
 		},
-		computed:{
-			...mapGetters({
-				token: 'oauth'
-			}),
-		},
 		methods:{
-			...mapActions({
-				'Oauth': 'setOauth',
-			}),
 			getPelanggan(){
 				let that = this
-				that.$http.get('http://localhost:8000/api/select/pelanggan', {
-					headers: {
-						Authorization: that.token.token_type+' '+that.token.access_token
-					}
-				}).then(res => {
+				that.$http.get(base_url+'api/select/pelanggan')
+				.then(res => {
 					Vue.set(that.$data, 'pelanggan', res.data)
 				})
 			},
@@ -133,22 +122,16 @@
 			},
 			getProduk(){
 				let that = this
-				that.$http.get('http://localhost:8000/api/select/produk', {
-					headers: {
-						Authorization: that.token.token_type+' '+that.token.access_token
-					}
-				}).then(res => {
+				that.$http.get(base_url+'api/select/produk')
+				.then(res => {
 					Vue.set(that.$data, 'produk', res.data)
 				})
 			},
 			UpdateProduk(event, idx){
-				
 				let _find = this.produk.find(o => o.id == event.target.value)
-				
 				this.form[idx].id = _find.id;
 				this.form[idx].harga = _find.harga;
 				this.data.produk[idx].sub_total = _find.harga * this.data.produk[idx].jumlah;
-
 				this._total()
 			},
 			updateQty(event, idx){
@@ -168,12 +151,8 @@
 			},
 			simpan(){
 				let that = this
-				
-				that.$http.post('', that.data,{
-					headers: {
-						Authorization: that.token.token_type+' '+that.token.access_token
-					}
-				}).then(res => {
+				that.$http.post('', that.data)
+				.then(res => {
 					this.$swal({
 						text: res.data.message,
 						type: "success",
@@ -184,8 +163,7 @@
 				})
 			}
 		},
-		created(){
-			this.Oauth()
+		beforeMount(){
 			this.getPelanggan()
 			this.getProduk()
 		},

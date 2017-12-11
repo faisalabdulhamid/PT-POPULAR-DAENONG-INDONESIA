@@ -23,5 +23,9 @@ Route::get('supplier', 'SupplierController@index')->middleware(['auth'])->name('
 Route::get('produk', 'ProdukController@index')->middleware(['auth'])->name('produk');
 Route::get('bahan-baku', 'BahanBakuController@index')->middleware(['auth'])->name('bahan-baku');
 Route::get('pesanan', 'PesananController@index')->middleware(['auth'])->name('pesanan');
+Route::get('pembelian', 'PembelianController@index')->middleware(['auth'])->name('pembelian');
+Route::get('produksi', 'ProduksiController@index')->middleware(['auth'])->name('produksi');
+
+Route::get('pengiriman', 'PembelianController@index')->middleware(['auth'])->name('pengiriman');
 
 Auth::routes();

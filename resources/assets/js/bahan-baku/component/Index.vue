@@ -29,17 +29,15 @@
 	        			</td>
 	        		</tr>
 	        	</tbody>
-	        	<tfoot>
-	        		<tr>
-	        			<td></td>
-	        			<td>
-	        				<div class="btn-group btn-group-sm pull-right">
-	        					<a class="btn btn-info" v-show="table.prev_page_url" v-on:click="prev"><i class="fa fa-chevron-left"></i></a>
-	        					<a class="btn btn-info" v-show="table.next_page_url" v-on:click="next"><i class="fa fa-chevron-right"></i></a>
-	        				</div>
-	        			</td>
-	        		</tr>
-	        	</tfoot>
+				<tfoot>
+				  	<tr>
+				  		<td></td>
+				  		<td>
+				  			<a v-on:click="prev" :disabled="table.prev_page_url === null" class="btn btn-info btn-xs"><i class="fa fa-arrow-left"></i></a>
+				  			<a v-on:click="next" :disabled="table.next_page_url === null" class="btn btn-info btn-xs"><i class="fa fa-arrow-right"></i></a>
+				  		</td>
+				  	</tr>
+				</tfoot>
 	        </table>
         	
         </div>
@@ -47,53 +45,32 @@
 </template>
 
 <script>
-	import { mapActions, mapGetters} from 'vuex'
-	
 	export default{
-		name: "IndexBahanBaku",
+		name: "Index",
 		data(){
 			return {
 				table: {}
 			}
 		},
-		computed:{
-			...mapGetters({
-				token: 'oauth'
-			})
-		},
 		methods:{
-			...mapActions({
-				'Oauth': 'setOauth',
-			}),
 			getData(){
 				let that = this
-				that.$http.get('', {
-					headers: {
-						Authorization: that.token.token_type+' '+that.token.access_token
-					}
-				}).then(res => {
+				that.$http.get('')
+				.then(res => {
 					Vue.set(that.$data, 'table', res.data)
 				})
 			},
 			next(){
 				let that = this
-				that.$http.get(that.table.next_page_url, {
-					headers: {
-						Authorization: that.token.token_type+' '+that.token.access_token
-					}
-				}).then(res => {
-					Vue.set(that.$data, 'model', res.data.data)
+				that.$http.get(that.table.next_page_url)
+				.then(res => {
 					Vue.set(that.$data, 'table', res.data)
 				})
 			},
 			prev(){
 				let that = this
-				that.$http.get(that.table.prev_page_url, {
-					headers: {
-						Authorization: that.token.token_type+' '+that.token.access_token
-					}
-				}).then(res => {
-					Vue.set(that.$data, 'model', res.data.data)
+				that.$http.get(that.table.prev_page_url)
+				.then(res => {
 					Vue.set(that.$data, 'table', res.data)
 				})
 			},
@@ -106,11 +83,8 @@
 				}).then((result) => {
 					if (result.value) {
 						var that = this
-						that.$http.delete('/'+id, {
-							headers: {
-								Authorization: that.token.token_type+' '+that.token.access_token
-							}
-						}).then(res => {
+						that.$http.delete('/'+id)
+						.then(res => {
 							this.$swal({
 								title: "Deleted!",
 								text: res.data.message,
@@ -125,12 +99,8 @@
 			}
 			
 		},
-		created(){
-			this.Oauth()
-			this.getData()
-		},
 		beforeMount(){
-			
+			this.getData()
 		}
 	}
 </script>

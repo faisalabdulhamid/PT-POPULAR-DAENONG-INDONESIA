@@ -60,47 +60,27 @@
 </template>
 
 <script>
-	import { mapActions, mapGetters} from 'vuex'
-
 	export default{
-		name: "CreatePegawai",
+		name: "Create",
 		data(){
 			return {
 				data: {}
 			}
 		},
-		computed:{
-			...mapGetters({
-				token: 'oauth'
-			})
-		},
 		methods:{
-			...mapActions({
-				'Oauth': 'setOauth',
-				simpan(){
-					let that = this
-					
-					that.$http.post('', that.data,{
-						headers: {
-							Authorization: that.token.token_type+' '+that.token.access_token
-						}
-					}).then(res => {
-						this.$swal({
-							text: res.data.message,
-							type: "success",
-							timer: 5000
-						}).then(() => {
-							this.$router.push({name: 'index'})
-						})
+			simpan(){
+				let that = this
+				that.$http.post('')
+				.then(res => {
+					this.$swal({
+						text: res.data.message,
+						type: "success",
+						timer: 5000
+					}).then(() => {
+						this.$router.push({name: 'index'})
 					})
-				}
-			})
-		},
-		created(){
-			this.Oauth()
-		},
-		beforeMount(){
-
+				})
+			}
 		}
 	}
 </script>

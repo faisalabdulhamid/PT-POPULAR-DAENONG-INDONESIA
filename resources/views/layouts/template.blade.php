@@ -77,7 +77,7 @@
                 <div class="btn-group">
                     <a href="" data-toggle="tooltip" data-original-title="Logout" data-placement="bottom"
                        class="btn btn-metis-1 btn-sm" onclick="event.preventDefault();
-                                                 document.getElementById('logout-form').submit();localStorage.removeItem('oauth');">
+                                                 document.getElementById('logout-form').submit();localStorage.removeItem('token_popular');">
                         <i class="fa fa-power-off"></i>
                     </a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -164,6 +164,24 @@
           <a href="{{ route('pesanan') }}">
             <i class="fa fa-columns"></i>
             <span class="link-title">Pesanan</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{ route('pembelian') }}">
+            <i class="fa fa-columns"></i>
+            <span class="link-title">Pembelian</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{ route('pengiriman') }}">
+            <i class="fa fa-columns"></i>
+            <span class="link-title">Pengiriman</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{ route('produksi') }}">
+            <i class="fa fa-columns"></i>
+            <span class="link-title">Produksi</span>
           </a>
         </li>
 

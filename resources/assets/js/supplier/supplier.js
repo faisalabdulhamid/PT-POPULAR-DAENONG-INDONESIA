@@ -1,4 +1,5 @@
 require('./../bootstrap');
+import {base_url} from './../config/env.config'
 
 window.Vue = require('vue');
 
@@ -11,12 +12,14 @@ swalPlugin.install = function(Vue){
 Vue.use(swalPlugin)
 
 var _http = axios.create({
-  	baseURL: 'http://localhost:8000/api/supplier',
+  	baseURL: base_url+'api/supplier',
+    headers: {
+      Authorization: 'Bearer '+localStorage.getItem('token_popular')
+    }
 });
 _http.interceptors.response.use((response) => {
     return response;
 }, function (error) {
-	// console.log(error.response)
     // Do something with response error
     if (error.response.status === 401 || error.response.status === 500) {
     	swal(error.response.statusText, error.response.data.message, "error")
@@ -45,13 +48,9 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 import router from './router.js'
 
-import store from './store/index'
-
-
 const app = new Vue({
     el: '#root',
     template: '<app></app>',
     components: { App },
-    router,
-    store,
+    router
 });

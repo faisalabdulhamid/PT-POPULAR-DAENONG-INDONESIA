@@ -40,43 +40,26 @@
 </template>
 
 <script>
-	import { mapActions, mapGetters} from 'vuex'
-
 	export default{
-		name: "EditBahanBaku",
+		name: "Edit",
 		props: ['id'],
 		data(){
 			return {
 				data: {}
 			}
 		},
-		computed:{
-			...mapGetters({
-				token: 'oauth'
-			})
-		},
 		methods:{
-			...mapActions({
-				'Oauth': 'setOauth',
-			}),
 			getData(){
 				let that = this
-				that.$http.get('/'+that.id, {
-					headers: {
-						Authorization: that.token.token_type+' '+that.token.access_token
-					}
-				}).then(res => {
+				that.$http.get('/'+that.id)
+				.then(res => {
 					Vue.set(that.$data, 'data', res.data)
 				})
 			},
 			simpan(){
 				let that = this
-				that.$http.put('/'+that.id, that.data,{
-					headers: {
-						Authorization: that.token.token_type+' '+that.token.access_token
-					}
-				}).then(res => {
-					console.log(res)
+				that.$http.put('/'+that.id, that.data)
+				.then(res => {
 					that.$swal({
 						title: res.data.message,
 						type: "success",
@@ -86,9 +69,6 @@
 					})
 				})
 			}
-		},
-		created(){
-			this.Oauth()
 		},
 		beforeMount(){
 			this.getData()

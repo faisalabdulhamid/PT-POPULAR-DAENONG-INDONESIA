@@ -39,42 +39,24 @@
 </template>
 
 <script>
-	import { mapActions, mapGetters} from 'vuex'
-
 	export default{
-		name: "ShowPegawai",
+		name: "Show",
 		props: ['id'],
 		data(){
 			return {
 				data: {}
 			}
 		},
-		computed:{
-			...mapGetters({
-				token: 'oauth'
-			})
-		},
 		methods:{
-			...mapActions({
-				'Oauth': 'setOauth',
-			}),
 			getData(){
 				let that = this
-				that.$http.get('/'+that.id, {
-					headers: {
-						Authorization: that.token.token_type+' '+that.token.access_token
-					}
-				})
+				that.$http.get('/'+that.id)
 					.then(res => {
 						Vue.set(that.$data, 'data', res.data)
-					})
-					.catch(error => {
-						console.log(error)
 					})
 			}
 		},
 		beforeMount(){
-			this.Oauth()
 			this.getData()
 		}
 	}

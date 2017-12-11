@@ -1,4 +1,5 @@
 require('./../bootstrap');
+import {base_url} from './../config/env.config'
 
 window.Vue = require('vue');
 
@@ -7,8 +8,6 @@ import App from './component/App.vue'
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 import router from './router.js'
-
-import store from './store/index'
 
 //Plugin sweetalert2
 const swal = require('sweetalert2')
@@ -19,7 +18,10 @@ swalPlugin.install = function(Vue){
 Vue.use(swalPlugin)
 
 var _http = axios.create({
-  	baseURL: 'http://localhost:8000/api/pegawai',
+  	baseURL: base_url+'api/pegawai',
+    headers: {
+      Authorization: 'Bearer '+localStorage.getItem('token_popular')
+    }
 });
 _http.interceptors.response.use((response) => {
     return response;
@@ -51,6 +53,5 @@ const app = new Vue({
     el: '#root',
     template: '<app></app>',
     components: { App },
-    router,
-    store,
+    router
 });

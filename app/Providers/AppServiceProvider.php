@@ -3,9 +3,13 @@
 namespace App\Providers;
 
 use App\Entities\BahanBaku;
+use App\Entities\Pembelian;
 use App\Entities\Pesanan;
+use App\Entities\Produksi;
 use App\Observers\BahanBakuObserver;
+use App\Observers\PembelianObserver;
 use App\Observers\PesananObserver;
+use App\Observers\ProduksiObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,6 +24,8 @@ class AppServiceProvider extends ServiceProvider
         BahanBaku::observe(BahanBakuObserver::class);
         
         Pesanan::observe(PesananObserver::class);
+        Pembelian::observe(PembelianObserver::class);
+        Produksi::observe(ProduksiObserver::class);
 
     }
 
