@@ -23,4 +23,7 @@ mix
 	.js('resources/assets/js/pesanan/pesanan.js', 'public/js')
 	.js('resources/assets/js/pembelian/pembelian.js', 'public/js')
 	.js('resources/assets/js/produksi/produksi.js', 'public/js')
+	.js('resources/assets/js/produksi/jadwal-produksi.js', 'public/js')
+	.js('resources/assets/js/pengiriman/pengiriman.js', 'public/js')
+	.js('resources/assets/js/pengiriman/history-pengiriman.js', 'public/js')
  //   .sass('resources/assets/sass/app.scss', 'public/css');

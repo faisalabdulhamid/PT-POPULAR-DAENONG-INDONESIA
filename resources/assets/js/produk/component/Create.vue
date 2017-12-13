@@ -31,7 +31,7 @@
 	        				<option value="20 s">20 s</option>
 	        				<option value="25 s">25 s</option>
 	        				<option value="30 s">30 s</option>
-	        				<option value="45 s">45 s</option>
+	        				<option value="35 s">35 s</option>
 	        				<option value="40 s">40 s</option>
 	        			</select>
 	        		</div>
@@ -97,7 +97,7 @@
 		methods:{
 			getBahan(){
 				let that = this
-				that.$http.get(base_url+'api/select/bahan-baku')
+				that.$http.get(base_url+'select/bahan-baku')
 				.then(res => {
 					Vue.set(that.$data, 'bahan', res.data)
 				})

@@ -4,9 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Entities\Pembelian;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PembelianController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -43,18 +48,21 @@ class PembelianController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'bahan_baku_id' => 'required',
-            'jumlah' => 'required',
-            'supplier_id' => 'required'
+            'supplier_id' => 'required',
+            '*.*.bahan_baku_id' => 'required',
+            '*.*.jumlah' => 'required',
         ]);
 
-        $pembelian = new Pembelian();
-        $pembelian->bahan_baku_id = $request->bahan_baku_id;
-        $pembelian->supplier_id = $request->supplier_id;
-        $pembelian->jumlah = $request->jumlah;
-        $pembelian->save();
-
-
+        DB::transaction(function()use($request){
+            $pembelian = new Pembelian();
+            $pembelian->supplier_id = $request->supplier_id;
+            $pembelian->save();
+            foreach ($request->bahan_baku as $key => $value) {
+                $pembelian->bahanBaku()->attach($value['bahan_baku_id'], ['jumlah'=> $value['jumlah']]);
+            }
+            
+        });
+        
         return response()->json([
             'message' => 'Data Berhasil Ditambahkan'
         ], 201);
@@ -68,7 +76,10 @@ class PembelianController extends Controller
      */
     public function show($id)
     {
-        //
+        $pembelian = Pembelian::with(['bahanBaku' => function($query){
+            $query->select('nama', 'jumlah', 'satuan');
+        }])->get()->find($id);
+        return response()->json($pembelian);
     }
 
     /**

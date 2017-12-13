@@ -8,37 +8,26 @@
 	        <table class="table table-bordered">
 	        	<thead>
 	        		<tr>
-	        			<th>Tanggal</th>
 	        			<th>Pesanan</th>
 	        			<th>Tanggal Pesanan</th>
-	        			<th>Jumlah</th>
-	        			<th class="actions">#</th>
+	        			<th>Tanggal Pengiriman Bahan Baku</th>
+	        			<th>Batas Waktu</th>
+	        			<th>Waktu Kerja Sisa</th>
+	        			<th>#</th>
 	        		</tr>
 	        	</thead>
 	        	<tbody>
-	        		<tr v-for="item in table.data">
+	        		<tr v-for="item in data">
+	        			<td>{{ item.nama_pelanggan }}</td>
+	        			<td>{{ item.tanggal_pesan }}</td>
 	        			<td>{{ item.tanggal }}</td>
-	        			<td>{{ item.nama_pesanan }}</td>
-	        			<td>{{ item.nama_pesanan.tanggal }}</td>
-	        			<td>{{ item.jumlah }}</td>
+	        			<td>{{ item.batas_waktu }}</td>
+	        			<td>{{ item.waktu_sisa }}</td>
 	        			<td>
-	        				<div class="btn-group btn-group-sm pull-right">
-	        					<router-link class="btn btn-default" :to="{ name: 'show', params: { id: item.id }}"><i class="fa fa-search-plus"></i></router-link>
-	        					<!-- <router-link class="btn btn-default" :to="{ name: 'edit', params: { id: item.id }}"><i class="fa fa-edit"></i></router-link> -->
-	        					<!-- <a class="btn btn-default" v-on:click="hapus(item.id)"><i class="fa fa-trash"></i></a> -->
-	        				</div>
+	        				<a v-on:click="selesai(item.id)" class="btn btn-default btn-sm"><i class="fa fa-check"></i></a>
 	        			</td>
 	        		</tr>
 	        	</tbody>
-				<tfoot>
-				  	<tr>
-				  		<td colspan="4"></td>
-				  		<td>
-				  			<a v-on:click="prev" :disabled="table.prev_page_url === null" class="btn btn-info btn-xs"><i class="fa fa-arrow-left"></i></a>
-				  			<a v-on:click="next" :disabled="table.next_page_url === null" class="btn btn-info btn-xs"><i class="fa fa-arrow-right"></i></a>
-				  		</td>
-				  	</tr>
-				</tfoot>
 	        </table>
         	
         </div>
@@ -46,53 +35,49 @@
 </template>
 
 <script>
+	import {base_url} from './../../config/env.config'
 	export default{
 		name: "Index",
 		data(){
 			return {
-				table: {}
+				table: {},
+				data: [],
+				user: {}
 			}
 		},
 		methods:{
+			setUser(){
+				let self = this
+				self.$http.get(`${base_url}users`).then(res => {
+					self.user = res.data
+				})
+			},
 			getData(){
-				let that = this
-				that.$http.get('')
+				let self = this
+				self.$http.get('')
 				.then(res => {
-					Vue.set(that.$data, 'table', res.data)
+					Vue.set(self.$data, 'data', res.data)
 				})
 			},
-			next(){
-				let that = this
-				that.$http.get(that.table.next_page_url)
-				.then(res => {
-					Vue.set(that.$data, 'table', res.data)
-				})
-			},
-			prev(){
-				let that = this
-				that.$http.get(that.table.prev_page_url)
-				.then(res => {
-					Vue.set(that.$data, 'table', res.data)
-				})
-			},
-			hapus(id){
+			selesai(id){
 				this.$swal({
 					title: "Are you sure?",
-					text: "Are you sure that you want to leave this page?",
+					text: "Are you sure self you want to leave this page?",
 					type: "warning",
 					showCancelButton: true,
 				}).then((result) => {
 					if (result.value) {
-						var that = this
-						that.$http.delete('/'+id)
-						.then(res => {
+						var self = this
+						self.$http.post('/', {
+							pesanan_id: id
+						}).then(res => {
 							this.$swal({
-								title: "Deleted!",
+								title: "Success!",
 								text: res.data.message,
 								type: "success",
 								timer: 5000
 							}).then(() => {
-								that.getData()
+								self.getData()
 							})
 						})
 					}
@@ -102,6 +87,7 @@
 		},
 		beforeMount(){
 			this.getData()
+			this.setUser()
 		}
 	}
 </script>

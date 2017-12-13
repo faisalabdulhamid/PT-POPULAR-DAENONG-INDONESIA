@@ -12,9 +12,9 @@
 		        			<td>{{ data.nama }}</td>
 		        		</tr>
 		        		<tr>
-		        			<th>Berat</th>
+		        			<th>satuan</th>
 		        			<td>:</td>
-		        			<td>{{ data.berat }}</td>
+		        			<td>{{ data.satuan }}</td>
 		        		</tr>
 		        		<tr>
 		        			<th>Gramasi</th>

@@ -34,11 +34,11 @@
 	        		<label for="divisi" class="col-md-3 control-label">Divisi</label>
 	        		<div class="col-md-9">
 	        			<select class="form-control" id="divisi" v-model="data.divisi">
-	        				<option>marketing</option>
-							<option>admin</option>
-							<option>purchasing</option>
-							<option>produksi</option>
-							<option>exsim</option>
+	        				<option value="marketing">Marketing</option>
+							<option value="admin">Admin</option>
+							<option value="purchasing">Purchasing</option>
+							<option value="produksi">Produksi</option>
+							<option value="exim">Exim</option>
 	        			</select>
 	        		</div>
 	        	</div>
@@ -70,7 +70,7 @@
 		methods:{
 			simpan(){
 				let that = this
-				that.$http.post('')
+				that.$http.post('', this.data)
 				.then(res => {
 					this.$swal({
 						text: res.data.message,

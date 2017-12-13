@@ -2,6 +2,7 @@
 
 namespace App\Entities;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Pesanan extends Model
@@ -15,7 +16,7 @@ class Pesanan extends Model
 
     public function produks()
     {
-    	return $this->belongsToMany(Produk::class, 'detail_pesanan', 'pesanan_id', 'produk_id');
+    	return $this->belongsToMany(Produk::class, 'detail_pesanan', 'pesanan_id', 'produk_id')->withPivot('jumlah');
     }
 
     public function pelanggan()
@@ -32,5 +33,19 @@ class Pesanan extends Model
     {
         // $pelanggan = ;
         return $this->pelanggan()->first()->nama_perusahaan;
+    }
+
+    public function produksi()
+    {
+        return $this->hasMany(Produksi::class, 'pesanan_id');
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        // static::addGlobalScope('notProduksi', function(Builder $builder){
+        //     $builder->has('produksi', 0);
+        // });
     }
 }

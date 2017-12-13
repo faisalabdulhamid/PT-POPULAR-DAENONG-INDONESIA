@@ -21,6 +21,12 @@
 	        		</div>
 	        	</div>
 	        	<div class="form-group">
+	        		<label for="batas_waktu" class="col-md-3 control-label">Batas Waktu</label>
+	        		<div class="col-md-9">
+	        			<input type="date" class="form-control" id="batas_waktu" v-model="data.batas_waktu" readonly="">
+	        		</div>
+	        	</div>
+	        	<div class="form-group">
 	        		<label for="status" class="col-md-3 control-label">Status</label>
 	        		<div class="col-md-9">
 	        			<select class="form-control" id="status" v-model="data.status">
@@ -105,7 +111,7 @@
 		methods:{
 			getPelanggan(){
 				let that = this
-				that.$http.get(base_url+'api/select/pelanggan')
+				that.$http.get(base_url+'select/pelanggan')
 				.then(res => {
 					Vue.set(that.$data, 'pelanggan', res.data)
 				})
@@ -122,7 +128,7 @@
 			},
 			getProduk(){
 				let that = this
-				that.$http.get(base_url+'api/select/produk')
+				that.$http.get(base_url+'select/produk')
 				.then(res => {
 					Vue.set(that.$data, 'produk', res.data)
 				})

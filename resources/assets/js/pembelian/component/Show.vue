@@ -7,30 +7,29 @@
 		        <table class="table table-bordered">
 		        	<tbody>
 		        		<tr>
-		        			<th class="attr">Nama</th>
+		        			<th class="attr">Supplier</th>
 		        			<td class="titik">:</td>
-		        			<td>{{ data.nama }}</td>
+		        			<td>{{ data.nama_supplier }}</td>
 		        		</tr>
 		        		<tr>
-		        			<th>Warna</th>
+		        			<th>Tanggal Pembelian</th>
 		        			<td>:</td>
-		        			<td>{{ data.warna }}</td>
+		        			<td>{{ data.tanggal }}</td>
 		        		</tr>
+		        	</tbody>
+		        </table>
+		        <table class="table table-bordered">
+		        	<thead>
 		        		<tr>
-		        			<th>Gramasi</th>
-		        			<td>:</td>
-		        			<td>{{ data.gramasi }}</td>
+		        			<th>Bahan Baku</th>
+		        			<th>Satuan</th>
+		        			<th>Jumlah</th>
 		        		</tr>
-		        		<tr>
-		        			<th>Harga</th>
-		        			<td>:</td>
-		        			<td>{{ data.harga }}</td>
-		        		</tr>
-		        		<tr>
-		        			<th colspan="3">Bahan Baku</th>
-		        		</tr>
+		        	</thead>
+		        	<tbody>
 		        		<tr v-for="item in data.bahan_baku">
-		        			<td colspan="2">{{ item.nama }}</td>
+		        			<td>{{ item.nama }}</td>
+		        			<td>{{ item.satuan }}</td>
 		        			<td>{{ item.jumlah }}</td>
 		        		</tr>
 		        	</tbody>
@@ -51,10 +50,10 @@
 		},
 		methods:{
 			getData(){
-				let that = this
-				that.$http.get('/'+that.id)
+				let self = this
+				self.$http.get('/'+self.id)
 				.then(res => {
-					Vue.set(that.$data, 'data', res.data)
+					Vue.set(self.$data, 'data', res.data)
 				})
 			},
 		},

@@ -17,11 +17,8 @@ swalPlugin.install = function(Vue){
 Vue.use(swalPlugin)
 
 var _http = axios.create({
-  	baseURL: base_url+'api/pembelian',
-    headers: {
-      Authorization: 'Bearer '+localStorage.getItem('token_popular')
-    }
-});
+    baseURL: `${base_url}pembelian`
+})
 _http.interceptors.response.use((response) => {
     return response;
 }, function (error) {

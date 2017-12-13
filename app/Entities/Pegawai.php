@@ -25,4 +25,14 @@ class Pegawai extends Authenticatable
     {
     	return $this->hasMany(Pesanan::class, 'pegawai_id');
     }
+
+    public function is_admin()
+    {
+        return ($this->divisi == 'admin')? true: false;
+    }
+
+    public function is_marketing()
+    {
+        return ($this->divisi == 'marketing')? true: false;
+    }
 }

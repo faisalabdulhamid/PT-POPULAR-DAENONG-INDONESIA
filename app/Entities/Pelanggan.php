@@ -14,7 +14,7 @@ class Pelanggan extends Model
 
     public function pesanan()
     {
-    	// return $this->hasMany(Pesanan::class, 'pelanggan_id');
-    	return $this->hasOne(Pesanan::class, 'pelanggan_id');
+    	return $this->hasMany(Pesanan::class, 'pelanggan_id');
+    	// return $this->hasOne(Pesanan::class, 'pelanggan_id');
     }
 }

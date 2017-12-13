@@ -14,18 +14,14 @@
 	        	<thead>
 	        		<tr>
 	        			<th>Tanggal</th>
-	        			<th>Bahan Baku</th>
 	        			<th>Supplier</th>
-	        			<th>Jumlah</th>
 	        			<th class="actions">#</th>
 	        		</tr>
 	        	</thead>
 	        	<tbody>
 	        		<tr v-for="item in table.data">
 	        			<td>{{ item.tanggal }}</td>
-	        			<td>{{ item.nama_bahan }}</td>
 	        			<td>{{ item.nama_supplier }}</td>
-	        			<td>{{ item.jumlah }}</td>
 	        			<td>
 	        				<div class="btn-group btn-group-sm pull-right">
 	        					<router-link class="btn btn-default" :to="{ name: 'show', params: { id: item.id }}"><i class="fa fa-search-plus"></i></router-link>
@@ -35,7 +31,7 @@
 	        	</tbody>
 				<tfoot>
 				  	<tr>
-				  		<td colspan="4"></td>
+				  		<td colspan="2"></td>
 				  		<td>
 				  			<a v-on:click="prev" :disabled="table.prev_page_url === null" class="btn btn-info btn-xs"><i class="fa fa-arrow-left"></i></a>
 				  			<a v-on:click="next" :disabled="table.next_page_url === null" class="btn btn-info btn-xs"><i class="fa fa-arrow-right"></i></a>
@@ -49,6 +45,7 @@
 </template>
 
 <script>
+	import {base_url} from './../../config/env.config'
 	export default{
 		name: "Index",
 		data(){
@@ -57,6 +54,12 @@
 			}
 		},
 		methods:{
+			setUser(){
+				let self = this
+				self.$http.get(`${base_url}users`).then(res => {
+					self.user = res.data
+				})
+			},
 			getData(){
 				let that = this
 				that.$http.get('')
@@ -105,6 +108,7 @@
 		},
 		beforeMount(){
 			this.getData()
+			this.setUser()
 		}
 	}
 </script>

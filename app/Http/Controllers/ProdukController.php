@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\DB;
 
 class ProdukController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('ajax')->except('index');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -64,7 +69,7 @@ class ProdukController extends Controller
             $produk->save();
 
             foreach ($request->bahan_baku as $value) {
-                $produk->bahanBakus()->attach($value['bahan_baku_id'], ['jumlah' => $value['jumlah']]);
+                $produk->bahanBaku()->attach($value['bahan_baku_id'], ['jumlah' => $value['jumlah']]);
             }
             
         });
@@ -85,7 +90,7 @@ class ProdukController extends Controller
     {
         $produk = new Produk();
         $item = $produk->with(['bahanBaku' => function($query){
-            $query->select('bahan_baku_id', 'nama', 'jumlah');
+            $query->select('nama', 'jumlah', 'satuan');
         }])->get()->find($id);
         return response()->json($item);
     }

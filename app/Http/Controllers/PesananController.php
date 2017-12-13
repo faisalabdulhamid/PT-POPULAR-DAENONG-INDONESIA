@@ -4,10 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Entities\Pesanan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class PesananController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('ajax')->except('index');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +22,7 @@ class PesananController extends Controller
     public function index()
     {
         if (request()->wantsJson()) {
-            $pesanan = Pesanan::paginate(10);
+            $pesanan = Pesanan::orderBy('tanggal')->paginate(10);
 
             return response()->json($pesanan);
         }
@@ -47,7 +53,7 @@ class PesananController extends Controller
     {
         $this->validate($request, [
             'pelanggan' => 'required',
-            // 'tanggal' => 'required|date',
+            'batas_waktu' => 'required|date',
             'total_bayar' => 'required',
             'status' => 'required',
             '*.*.produk_id' => 'required',
@@ -58,7 +64,7 @@ class PesananController extends Controller
         DB::transaction(function() use($request){
             $pesanan = new Pesanan();
             $pesanan->pelanggan_id = $request->pelanggan;
-            $pesanan->tanggal = $request->tanggal;
+            $pesanan->batas_waktu = $request->batas_waktu;
             $pesanan->total_bayar = $request->total_bayar;
             $pesanan->status = $request->status;
             $pesanan->save();
@@ -82,9 +88,45 @@ class PesananController extends Controller
      */
     public function show($id)
     {
-        $pesanan = Pesanan::with(['produks' => function($query){
-            $query->select('nama', 'harga', 'warna', 'jumlah');
-        }])->get()->find($id);
+        if (Auth::user()->divisi == 'purchasing') {
+            $data = Pesanan::find($id);
+
+            $pesanan['nama_pelanggan'] = $data->pelanggan()->first()->nama_perusahaan;
+            $pesanan['tanggal'] = $data->tanggal;
+            $arr_produk = $data->produks()->get();
+
+            $pesanan['bahan_baku'] = [];
+            $bahan_baku = [];
+            $produk = [];
+            foreach ($arr_produk as $key => $value) {
+                $row = [];
+                $row['nama'] = $value->nama;
+                $row['jumlah'] = $value->pivot->jumlah;
+                
+
+                foreach ($value->bahanBaku as $val) {
+                    $d = [];
+                    $d['nama'] = $val->nama;
+                    $d['jumlah_total'] = $val->pivot->jumlah * $value->pivot->jumlah;
+                    $d['jumlah'] = $val->pivot->jumlah;
+                    $row['bahan_baku'][] = $d;
+
+                }
+                $produk[] = $row;
+            }
+            $pesanan['produks'] = $produk;
+            // $pesanan['bahan_baku'] = $bahan_baku;
+
+
+
+        }else{
+            $pesanan = Pesanan::with(['produks' => function($query){
+                $query->select('nama', 'harga', 'warna', 'jumlah');
+            }])->get()->find($id);    
+        }
+        
+        
+
         return response()->json($pesanan);    
     }
 
@@ -106,30 +148,12 @@ class PesananController extends Controller
      * @param  \App\Entities\Pesanan  $pesanan
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Pesanan $pesanan)
+    public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'pelanggan' => 'required',
-            'tanggal' => 'required|date',
-            'total_bayar' => 'required',
-            'status' => 'required',
-            'produk' => 'required'
-        ]);
-
-        DB::transaction(function() use($pesanan, $request){
-            $pesanan->pelanggan_id = $request->pelanggan;
-            $pesanan->tanggal = $request->tanggal;
-            $pesanan->total_bayar = $request->total_bayar;
-            $pesanan->status = $request->status;
-            $pesanan->save();
-
-            $pesanan->produks()->sync($request->produk);
-            
-        });
-
-        return response()->json([
-            'message' => 'Data Berhasil Diubah'
-        ], 201);
+        $produksi = new \App\Entities\Produksi();
+        $produksi->pesanan_id = $id;
+        $produksi->save();
+        return response()->json(['message'=>'Pesanan Berhasil Dikirim Ke Produksi'], 201);
     }
 
     /**

@@ -83,7 +83,7 @@
 		methods:{
 			getBahan(){
 				let that = this
-				that.$http.get(base_url+'api/select/bahan-baku')
+				that.$http.get(base_url+'select/bahan-baku')
 				.then(res => {
 					Vue.set(that.$data, 'bahan', res.data)
 				})

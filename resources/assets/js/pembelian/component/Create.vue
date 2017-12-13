@@ -7,26 +7,39 @@
         <div class="body">
 	        <form class="form-horizontal" v-on:submit.prevent="simpan">
 	        	<div class="form-group">
-	        		<label for="bahan_baku_id" class="col-md-3 control-label">Bahan Baku</label>
-	        		<div class="col-md-9">
-	        			<select class="form-control" id="bahan_baku_id" v-model="data.bahan_baku_id" v-on:change="changeBahan">
-	        				<option v-for="item in bahan" :value="item.id">{{item.nama}}</option>
-	        			</select>	
-	        		</div>
-	        	</div>
-	        	<div class="form-group">
 	        		<label for="supplier_id" class="col-md-3 control-label">Supplier</label>
 	        		<div class="col-md-9">
-	        			<select class="form-control" id="supplier_id" v-model="data.supplier_id">
+	        			<select v-on:change="updateSupplier" class="form-control" id="supplier_id" v-model="data.supplier_id">
 	        				<option v-for="item in supplier" :value="item.id">{{item.nama}}</option>
 	        			</select>	
 	        		</div>
 	        	</div>
 	        	<div class="form-group">
-	        		<label for="jumlah" class="col-md-3 control-label">Jumlah</label>
-	        		<div class="col-md-9">
-	        			<input class="form-control" id="jumlah" v-model="data.jumlah">	
-	        		</div>
+	        		<table class="table table-bordered">
+	        			<thead>
+	        				<tr>
+	        					<th>Bahan Baku</th>
+	        					<th>Jumlah</th>
+	        					<th>#</th>
+	        				</tr>
+	        			</thead>
+	        			<tbody>
+	        				<tr v-for="(item, idx) in data.bahan_baku">
+	        					<td>
+	        						<select class="form-control" id="bahan_baku_id" v-model="item.bahan_baku_id">
+	        							<option v-for="b in bahan" :value="b.id">{{b.nama}}</option>
+	        						</select>
+	        					</td>
+	        					<td>
+	        						<input class="form-control" id="jumlah" v-model="item.jumlah">	
+	        					</td>
+	        					<td>
+	        						<a class="btn btn-sm btn-danger" v-on:click="removeBahan(idx)"><i class="fa fa-times"></i></a>
+		        					<a class="btn btn-sm btn-info" v-on:click="addBahan"><i class="fa fa-plus"></i></a>
+	        					</td>
+	        				</tr>
+	        			</tbody>
+	        		</table>
 	        	</div>
 				
 				<div class="pull-right">
@@ -45,29 +58,39 @@
 		name: "Create",
 		data(){
 			return {
-				data: {},
+				data: {
+					bahan_baku: [{bahan_baku_id:'', jumlah: 1}]
+				},
 				bahan: [],
 				supplier: [],
 			}
 		},
 		methods:{
-			getBahan(){
-				let that = this
-				that.$http.get(base_url+'api/select/bahan-baku')
+			getSupplier(){
+				let self = this
+				self.$http.get(`${base_url}select/supplier`)
 				.then(res => {
-					Vue.set(that.$data, 'bahan', res.data)
+					Vue.set(self.$data, 'supplier', res.data)
 				})
 			},
-			changeBahan(){
-				let that = this
-				that.$http.get(base_url+'api/select/supplier/'+this.data.bahan_baku_id)
+			removeBahan(idx){
+				if (this.data.bahan_baku.length > 1) {
+					this.data.bahan_baku.splice(idx, 1)	
+				}
+			},
+			addBahan(){
+				this.data.bahan_baku.push({bahan_baku_id: '', jumlah: 1})
+			},
+			updateSupplier(){
+				let self = this
+				self.$http.get(`${base_url}select/bahan-baku/${this.data.supplier_id}`)
 				.then(res => {
-					Vue.set(that.$data, 'supplier', res.data)
+					Vue.set(self.$data, 'bahan', res.data)
 				})
 			},
 			simpan(){
-				let that = this
-				that.$http.post('', that.data)
+				let self = this
+				self.$http.post('', self.data)
 				.then(res => {
 					this.$swal({
 						text: res.data.message,
@@ -80,7 +103,7 @@
 			}
 		},
 		beforeMount(){
-			this.getBahan()
+			this.getSupplier()
 		}
 	}
 </script>

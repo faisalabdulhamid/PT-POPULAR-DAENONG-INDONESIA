@@ -16,7 +16,7 @@ class CreateBahanBakusTable extends Migration
         Schema::create('bahan_baku', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nama');
-            $table->tinyInteger('berat');
+            $table->string('satuan');
             $table->enum('gramasi', ['20 s', '25 s', '30 s', '35 s', '40 s']);
             $table->unsignedInteger('pegawai_id');
             $table->timestamps();

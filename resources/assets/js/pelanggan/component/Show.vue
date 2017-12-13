@@ -26,12 +26,25 @@
 		        			<td>:</td>
 		        			<td>{{ data.alamat }}</td>
 		        		</tr>
+		        	</tbody>
+		        </table>
+
+		        <table class="table table-bordered">
+		        	<thead>
 		        		<tr>
-		        			<th colspan="3">History Pesanan</th>
+		        			<th colspan="2">History Pesanan</th>
 		        		</tr>
+		        	</thead>
+		        	<thead>
 		        		<tr>
-		        			<td>Tanggal</td>
-		        			<td colspan="2">Total Bayar</td>
+		        			<th>Tanggal</th>
+		        			<th>Total Bayar</th>
+		        		</tr>
+		        	</thead>
+		        	<tbody>
+		        		<tr v-for="item in data.pesanan">
+		        			<td>{{ item.tanggal }}</td>
+		        			<td>{{ item.total_bayar }}</td>
 		        		</tr>
 		        	</tbody>
 		        </table>

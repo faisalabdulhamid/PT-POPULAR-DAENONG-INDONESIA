@@ -26,9 +26,17 @@
 		        			<td>:</td>
 		        			<td>{{ data.alamat }}</td>
 		        		</tr>
+		        		
+		        	</tbody>
+		        </table>
+
+		        <table class="table table-bordered">
+		        	<thead>
 		        		<tr>
-		        			<th colspan="3"> Bahan Baku</th>
+		        			<th>Bahan Baku</th>
 		        		</tr>
+		        	</thead>
+		        	<tbody>
 		        		<tr v-for="bahan in data.bahan_baku">
 		        			<td colspan="3">{{ bahan.nama }}</td>
 		        		</tr>

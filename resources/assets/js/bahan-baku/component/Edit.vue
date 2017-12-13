@@ -13,9 +13,12 @@
 	        		</div>
 	        	</div>
 	        	<div class="form-group">
-	        		<label for="berat" class="col-md-3 control-label">Berat</label>
+	        		<label for="satuan" class="col-md-3 control-label">satuan</label>
 	        		<div class="col-md-9">
-	        			<input type="text" class="form-control" id="berat" v-model="data.berat">
+	        			<select class="form-control" id="satuan" v-model="data.satuan">
+	        				<option value="gram">gram</option>
+	        				<option value="kilo">kilo</option>
+	        			</select>
 	        		</div>
 	        	</div>
 	        	<div class="form-group">

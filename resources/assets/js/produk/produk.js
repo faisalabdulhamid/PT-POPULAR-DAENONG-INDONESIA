@@ -17,10 +17,7 @@ swalPlugin.install = function(Vue){
 Vue.use(swalPlugin)
 
 var _http = axios.create({
-  	baseURL: base_url+'api/produk',
-    headers: {
-      Authorization: 'Bearer '+localStorage.getItem('token_popular')
-    }
+    baseURL: `${base_url}produk`
 });
 _http.interceptors.response.use((response) => {
     return response;
@@ -51,5 +48,5 @@ const app = new Vue({
     el: '#root',
     template: '<app></app>',
     components: { App },
-    router
+    router,
 });

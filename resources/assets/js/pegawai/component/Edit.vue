@@ -21,7 +21,7 @@
 	        	<div class="form-group">
 	        		<label for="email" class="col-md-3 control-label">Email</label>
 	        		<div class="col-md-9">
-	        			<input type="text" class="form-control" id="email" v-model="data.email">	
+	        			<input type="text" class="form-control" id="email" v-model="data.email" readonly="">	
 	        		</div>
 	        	</div>
 	        	<div class="form-group">
@@ -38,7 +38,7 @@
 							<option value="admin">Admin</option>
 							<option value="purchasing">Purchasing</option>
 							<option value="produksi">Produksi</option>
-							<option value="exsim">Exsim</option>
+							<option value="exim">Exim</option>
 	        			</select>
 	        		</div>
 	        	</div>

@@ -5,7 +5,7 @@
           <h5>Produk</h5>
           <div class="toolbar">
             <div class="btn-group">
-              <router-link class="btn btn-default btn-sm pull-right" :to="{ name: 'create'}"><i class="fa fa-user-plus"></i></router-link>
+              <router-link v-if="user.divisi == 'admin'" class="btn btn-default btn-sm pull-right" :to="{ name: 'create'}"><i class="fa fa-user-plus"></i></router-link>
             </div>
           </div>
         </header>
@@ -25,8 +25,8 @@
 	        			<td>
 	        				<div class="btn-group btn-group-sm pull-right">
 	        					<router-link class="btn btn-default" :to="{ name: 'show', params: { id: item.id }}"><i class="fa fa-search-plus"></i></router-link>
-	        					<router-link class="btn btn-default" :to="{ name: 'edit', params: { id: item.id }}"><i class="fa fa-edit"></i></router-link>
-	        					<a class="btn btn-default" v-on:click="hapus(item.id)"><i class="fa fa-trash"></i></a>
+	        					<router-link v-if="user.divisi == 'admin'" class="btn btn-default" :to="{ name: 'edit', params: { id: item.id }}"><i class="fa fa-edit"></i></router-link>
+	        					<a v-if="user.divisi == 'admin'" class="btn btn-default" v-on:click="hapus(item.id)"><i class="fa fa-trash"></i></a>
 	        				</div>
 	        			</td>
 	        		</tr>
@@ -47,14 +47,22 @@
 </template>
 
 <script>
+	import {base_url} from './../../config/env.config'
 	export default{
 		name: "Index",
 		data(){
 			return {
-				table: {}
+				table: {},
+				user: {}
 			}
 		},
 		methods:{
+			setUser(){
+				let self = this
+				self.$http.get(`${base_url}users`).then(res => {
+					self.user = res.data
+				})
+			},
 			getData(){
 				let that = this
 				that.$http.get('')
@@ -103,6 +111,7 @@
 		},
 		beforeMount(){
 			this.getData()
+			this.setUser()
 		}
 	}
 </script>

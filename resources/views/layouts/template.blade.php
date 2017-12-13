@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="{{ asset('dist/lib/bootstrap/css/bootstrap.css') }}" />
   
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="{{ asset('dist/font-awesome/css/font-awesome.css') }}" />
   
   <!-- Metis core stylesheet -->
   <link rel="stylesheet" href="{{ asset('dist/css/main.css') }}">
@@ -113,8 +113,8 @@
                   <h5 class="media-heading">{{ Auth::user()->nama }}</h5>
                   <ul class="list-unstyled user-info">
                       <li><a href="">{{ Auth::user()->divisi }}</a></li>
-                      <li>Last Access : <br>
-                          <small><i class="fa fa-calendar"></i>&nbsp;16 Mar 16:32</small>
+                      <li><br>
+                          <small><i class="fa fa-calendar"></i>&nbsp;</small>
                       </li>
                   </ul>
               </div>
@@ -130,6 +130,35 @@
             <i class="fa fa-dashboard"></i><span class="link-title">&nbsp;Home</span>
           </a>
         </li>
+        @if(Auth::user()->divisi == 'marketing')
+        <li>
+          <a href="{{ route('pesanan') }}">
+            <i class="fa fa-columns"></i>
+            <span class="link-title">Pesanan</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{ route('pelanggan') }}">
+            <i class="fa fa-font"></i>
+            <span class="link-title">Pelanggan</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{ route('produk') }}">
+            <i class="fa fa-calendar"></i>
+            <span class="link-title">Produk</span>
+          </a>
+        </li>
+
+        @endif
+
+        @if(Auth::user()->divisi == 'admin')
+        <li>
+          <a href="{{ route('produk') }}">
+            <i class="fa fa-calendar"></i>
+            <span class="link-title">Produk </span>
+          </a>
+        </li>
         <li>
           <a href="{{ route('pegawai') }}">
             <i class="fa fa-table"></i>
@@ -137,9 +166,18 @@
           </a>
         </li>
         <li>
-          <a href="{{ route('pelanggan') }}">
-            <i class="fa fa-font"></i>
-            <span class="link-title">Pelanggan</span>
+          <a href="{{ route('bahan-baku') }}">
+            <i class="fa fa-columns"></i>
+            <span class="link-title">Bahan Baku</span>
+          </a>
+        </li>
+
+        @endif
+        @if(Auth::user()->divisi == 'purchasing')
+        <li>
+          <a href="{{ route('pesanan') }}">
+            <i class="fa fa-columns"></i>
+            <span class="link-title">Pesanan</span>
           </a>
         </li>
         <li>
@@ -155,27 +193,18 @@
           </a>
         </li>
         <li>
-          <a href="{{ route('bahan-baku') }}">
-            <i class="fa fa-columns"></i>
-            <span class="link-title">Bahan Baku</span>
-          </a>
-        </li>
-        <li>
-          <a href="{{ route('pesanan') }}">
-            <i class="fa fa-columns"></i>
-            <span class="link-title">Pesanan</span>
-          </a>
-        </li>
-        <li>
           <a href="{{ route('pembelian') }}">
             <i class="fa fa-columns"></i>
             <span class="link-title">Pembelian</span>
           </a>
         </li>
+
+        @endif
+        @if(Auth::user()->divisi == 'produksi')
         <li>
-          <a href="{{ route('pengiriman') }}">
+          <a href="{{ route('pesanan') }}">
             <i class="fa fa-columns"></i>
-            <span class="link-title">Pengiriman</span>
+            <span class="link-title">Pesanan</span>
           </a>
         </li>
         <li>
@@ -184,34 +213,28 @@
             <span class="link-title">Produksi</span>
           </a>
         </li>
-
-        <li class="">
-          <a href="javascript:;">
-            <i class="fa fa-pencil"></i>
-            <span class="link-title">
-          Forms
-            </span>
-            <span class="fa arrow"></span>
+        <li>
+          <a href="{{ route('jadwal', 'jadwal') }}">
+            <i class="fa fa-columns"></i>
+            <span class="link-title">Jadwal Produksi</span>
           </a>
-          <ul class="collapse">
-            <li>
-              <a href="form-general.html">
-                <i class="fa fa-angle-right"></i>&nbsp; Form General </a>
-            </li>
-            <li>
-              <a href="form-validation.html">
-                <i class="fa fa-angle-right"></i>&nbsp; Form Validation </a>
-            </li>
-            <li>
-              <a href="form-wizard.html">
-                <i class="fa fa-angle-right"></i>&nbsp; Form Wizard </a>
-            </li>
-            <li>
-              <a href="form-wysiwyg.html">
-                <i class="fa fa-angle-right"></i>&nbsp; Form WYSIWYG </a>
-            </li>
-          </ul>
         </li>
+        @endif
+
+        @if(Auth::user()->divisi == 'exim')
+        <li>
+          <a href="{{ route('pengiriman') }}">
+            <i class="fa fa-columns"></i>
+            <span class="link-title">Pengiriman</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{ route('history', 'history') }}">
+            <i class="fa fa-columns"></i>
+            <span class="link-title">History Pengiriman</span>
+          </a>
+        </li>
+        @endif
       </ul>
       <!-- /#menu -->
     </div>

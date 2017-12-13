@@ -26,6 +26,11 @@
 		        			<td>:</td>
 		        			<td colspan="2">{{ data.status }}</td>
 		        		</tr>
+		        	</tbody>
+		        </table>
+
+		        <table class="table table-bordered">
+		        	<thead>
 		        		<tr>
 		        			<th colspan="4">Produk</th>
 		        		</tr>
@@ -35,6 +40,8 @@
 		        			<th>Harga</th>
 		        			<th>SubTotal</th>
 		        		</tr>
+		        	</thead>
+		        	<tbody>
 		        		<tr v-for="item in data.produks">
 		        			<td>{{item.nama}}</td>
 		        			<td>{{item.jumlah}}</td>

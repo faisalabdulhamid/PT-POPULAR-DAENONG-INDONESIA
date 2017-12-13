@@ -1,11 +1,14 @@
 {
     "/js/supplier.js": "/js/supplier.js",
     "/js/produk.js": "/js/produk.js",
+    "/js/pesanan.js": "/js/pesanan.js",
     "/js/pelanggan.js": "/js/pelanggan.js",
     "/js/pegawai.js": "/js/pegawai.js",
     "/js/bahan-baku.js": "/js/bahan-baku.js",
-    "/js/pesanan.js": "/js/pesanan.js",
     "/js/pembelian.js": "/js/pembelian.js",
     "/js/produksi.js": "/js/produksi.js",
+    "/js/jadwal-produksi.js": "/js/jadwal-produksi.js",
+    "/js/pengiriman.js": "/js/pengiriman.js",
+    "/js/history-pengiriman.js": "/js/history-pengiriman.js",
     "/js/login.js": "/js/login.js"
 }

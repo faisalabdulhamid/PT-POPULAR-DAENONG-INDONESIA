@@ -49,14 +49,22 @@
 </template>
 
 <script>
+	import {base_url} from './../../config/env.config'
 	export default{
 		name: "Index",
 		data(){
 			return {
-				table: {}
+				table: {},
+				user: {}
 			}
 		},
 		methods:{
+			setUser(){
+				let self = this
+				self.$http.get(`${base_url}users`).then(res => {
+					self.user = res.data
+				})
+			},
 			getData(){
 				let that = this
 				that.$http.get('')
@@ -106,6 +114,7 @@
 		},
 		beforeMount(){
 			this.getData()
+			this.setUser()
 		}
 	}
 </script>

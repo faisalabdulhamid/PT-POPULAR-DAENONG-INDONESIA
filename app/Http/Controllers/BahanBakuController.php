@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class BahanBakuController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('ajax')->except('index');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -47,13 +52,13 @@ class BahanBakuController extends Controller
     {
         $this->validate($request, [
             'nama' => 'required',
-            'berat' => 'required',
+            'satuan' => 'required',
             'gramasi' => 'required',
         ]);
 
         $bahanBaku = new BahanBaku();
         $bahanBaku->nama = $request->nama;
-        $bahanBaku->berat = $request->berat;
+        $bahanBaku->satuan = $request->satuan;
         $bahanBaku->gramasi = $request->gramasi;
         $bahanBaku->save();
 
@@ -95,12 +100,12 @@ class BahanBakuController extends Controller
     {
         $this->validate($request, [
             'nama' => 'required',
-            'berat' => 'required',
+            'satuan' => 'required',
             'gramasi' => 'required',
         ]);
 
         $bahanBaku->nama = $request->nama;
-        $bahanBaku->berat = $request->berat;
+        $bahanBaku->satuan = $request->satuan;
         $bahanBaku->gramasi = $request->gramasi;
         $bahanBaku->save();
 

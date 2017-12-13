@@ -12,21 +12,21 @@ class Pembelian extends Model
     protected $table = 'pembelian';
     protected $appends = [
     	'nama_supplier',
-    	'nama_bahan'
+    	// 'nama_bahan'
     ];
 
     protected $hidden = [
     	'created_at', 'updated_at', 'pegawai_id', 'supplier_id', 'bahan_baku_id'
     ];
 
+    public function getNamaSupplierAttribute()
+    {
+        return $this->supplier()->first()->nama;
+    }
+
     public function supplier()
     {
     	return $this->belongsTo(Supplier::class, 'supplier_id');
-    }
-
-    public function bahanBaku()
-    {
-    	return $this->belongsTo(BahanBaku::class, 'bahan_baku_id');
     }
 
     public function pegawai()
@@ -34,13 +34,13 @@ class Pembelian extends Model
     	return $this->belongsTo(Pegawai::class, 'pegawai_id');
     }
 
-    public function getNamaSupplierAttribute()
+    public function bahanBaku()
     {
-    	return $this->supplier()->first()->nama;
+        return $this->belongsToMany(BahanBaku::class, 'detail_pembelian', 'pembelian_id', 'bahan_baku_id')->withPivot('jumlah');
     }
 
-    public function getNamaBahanAttribute()
-    {
-    	return $this->bahanBaku()->first()->nama;
-    }
+    // public function getNamaBahanAttribute()
+    // {
+    // 	return $this->bahanBaku()->first()->nama;
+    // }
 }

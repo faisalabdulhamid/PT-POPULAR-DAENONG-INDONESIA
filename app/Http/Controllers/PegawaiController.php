@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Auth;
 
 class PegawaiController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth']);
+        $this->middleware('ajax')->except('index');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -51,7 +56,7 @@ class PegawaiController extends Controller
             'password' => 'required|min:6',
             'no_telepon' => 'required|min:12|unique:pegawai',
             'alamat' => 'required',
-            'divisi' => 'required|in:marketing,admin,purchasing,produksi,exsim',
+            'divisi' => 'required|in:marketing,admin,purchasing,produksi,exim',
         ]);
 
         $pegawai = new Pegawai();
@@ -106,13 +111,13 @@ class PegawaiController extends Controller
             'password' => 'min:6',
             'no_telepon' => 'required|min:12',
             'alamat' => 'required',
-            'divisi' => 'required|in:marketing,admin,purchasing,produksi,exsim',
+            'divisi' => 'required|in:marketing,admin,purchasing,produksi,exim',
         ]);
 
         if(!is_null($request->password)){
             $pegawai->password = bcrypt($request->password);    
         }
-
+        // $pegawai->email = $request->email;
         $pegawai->nama = $request->nama;
         $pegawai->no_telepon = $request->no_telepon;
         $pegawai->alamat = $request->alamat;

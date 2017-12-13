@@ -2,12 +2,13 @@
 
 namespace App\Entities;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Produksi extends Model
 {
     protected $table = 'produksi';
-    protected $appends = ['nama_pesanan'];
+    protected $appends = [];
 
     protected $hidden = [
     	'created_at', 'updated_at'
@@ -23,8 +24,17 @@ class Produksi extends Model
     	return $this->belongsTo(Pesanan::class, 'pesanan_id');
     }
 
-    public function getNamaPesananAttribute()
+    public function pengiriman()
     {
-    	return $this->pesanan()->first();
+        return $this->hasMany(Pengiriman::class, 'produksi_id');
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('notPengiriman', function(Builder $builder){
+            $builder->has('pengiriman', 0);
+        });
     }
 }

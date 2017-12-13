@@ -12,18 +12,5 @@ const app = new Vue({
     			password: ''
     		}
     	}
-    },
-    methods:{
-    	login(){
-            axios.post(base_url+'oauth/token', {
-                "client_id": 2,
-                "client_secret": api_key,
-                "grant_type": "password",
-                "username": this.data.email,
-                "password": this.data.password
-            }).then(res => {
-                localStorage.setItem('token_popular', res.data.access_token)
-            })
-        }
     }
 });

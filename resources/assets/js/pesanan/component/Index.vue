@@ -5,7 +5,7 @@
           <h5>Pesanan</h5>
           <div class="toolbar">
             <div class="btn-group">
-              <router-link class="btn btn-default btn-sm pull-right" :to="{ name: 'create'}"><i class="fa fa-user-plus"></i></router-link>
+              <router-link v-if="user.divisi == 'marketing'" class="btn btn-default btn-sm pull-right" :to="{ name: 'create'}"><i class="fa fa-user-plus"></i></router-link>
             </div>
           </div>
         </header>
@@ -25,8 +25,13 @@
 	        			<td>{{ item.nama_pelanggan }}</td>
 	        			<td>{{ item.total_bayar }}</td>
 	        			<td>
-	        				<div class="btn-group btn-group-sm pull-right">
+	        				<div v-if="user.divisi != 'purchasing'" class="btn-group btn-group-sm pull-right">
 	        					<router-link class="btn btn-default" :to="{ name: 'show', params: { id: item.id }}"><i class="fa fa-search-plus"></i></router-link>
+	        				</div>
+
+	        				<div v-if="user.divisi === 'purchasing'" class="btn-group btn-group-sm pull-right">
+	        					<router-link class="btn btn-default" :to="{ name: 'purchasing', params: { id: item.id }}"><i class="fa fa-search-plus"></i></router-link>
+	        					<a v-on:click="kirimProduksi(item.id)" class="btn btn-default"><i class="fa fa-check"></i></a>
 	        				</div>
 	        			</td>
 	        		</tr>
@@ -47,14 +52,22 @@
 </template>
 
 <script>
+	import {base_url} from './../../config/env.config'
 	export default{
 		name: "Index",
 		data(){
 			return {
-				table: {}
+				table: {},
+				user: {}
 			}
 		},
 		methods:{
+			setUser(){
+				let self = this
+				self.$http.get(`${base_url}users`).then(res => {
+					self.user = res.data
+				})
+			},
 			getData(){
 				let that = this
 				that.$http.get('')
@@ -76,7 +89,7 @@
 					Vue.set(that.$data, 'table', res.data)
 				})
 			},
-			hapus(id){
+			kirimProduksi(id){
 				this.$swal({
 					title: "Are you sure?",
 					text: "Are you sure that you want to leave this page?",
@@ -85,10 +98,10 @@
 				}).then((result) => {
 					if (result.value) {
 						var that = this
-						that.$http.delete('/'+id)
+						that.$http.put(''+id)
 						.then(res => {
 							this.$swal({
-								title: "Deleted!",
+								title: "Success",
 								text: res.data.message,
 								type: "success",
 								timer: 5000
@@ -103,6 +116,7 @@
 		},
 		beforeMount(){
 			this.getData()
+			this.setUser()
 		}
 	}
 </script>

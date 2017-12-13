@@ -26,12 +26,24 @@
 		        			<td>:</td>
 		        			<td>{{ data.harga }}</td>
 		        		</tr>
+		        	</tbody>
+		        </table>
+		        <table class="table table-bordered">
+		        	<thead>
 		        		<tr>
 		        			<th colspan="3">Bahan Baku</th>
 		        		</tr>
+		        		<tr>
+		        			<th>Bahan Baku</th>
+		        			<th>Jumlah</th>
+		        			<th>Satuan</th>
+		        		</tr>
+		        	</thead>
+		        	<tbody>
 		        		<tr v-for="item in data.bahan_baku">
-		        			<td colspan="2">{{ item.nama }}</td>
+		        			<td>{{ item.nama }}</td>
 		        			<td>{{ item.jumlah }}</td>
+		        			<td>{{ item.satuan }}</td>
 		        		</tr>
 		        	</tbody>
 		        </table>
@@ -41,8 +53,6 @@
 </template>
 
 <script>
-	import { mapActions, mapGetters} from 'vuex'
-
 	export default{
 		name: "ShowProduk",
 		props: ['id'],
@@ -51,28 +61,16 @@
 				data: {}
 			}
 		},
-		computed:{
-			...mapGetters({
-				token: 'oauth'
-			}),
-		},
 		methods:{
-			...mapActions({
-				'Oauth': 'setOauth',
-			}),
 			getData(){
 				let that = this
-				that.$http.get('/'+that.id, {
-					headers: {
-						Authorization: that.token.token_type+' '+that.token.access_token
-					}
-				}).then(res => {
+				that.$http.get('/'+that.id)
+				.then(res => {
 					Vue.set(that.$data, 'data', res.data)
 				})
 			},
 		},
 		beforeMount(){
-			this.Oauth()
 			this.getData()
 		}
 	}

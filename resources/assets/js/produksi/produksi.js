@@ -16,10 +16,7 @@ swalPlugin.install = function(Vue){
 Vue.use(swalPlugin)
 
 var _http = axios.create({
-  	baseURL: base_url+'api/produksi',
-    headers: {
-      Authorization: 'Bearer '+localStorage.getItem('token_popular')
-    }
+    baseURL: `${base_url}produksi`
 });
 _http.interceptors.response.use((response) => {
     return response;

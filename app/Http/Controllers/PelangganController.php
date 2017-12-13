@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class PelangganController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(['auth']);
+        $this->middleware('ajax')->except('index');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +21,7 @@ class PelangganController extends Controller
     public function index()
     {
         if (request()->wantsJson()) {
-            $pelanggan = Pelanggan::paginate(10);
+            $pelanggan = Pelanggan::orderBy('nama_perusahaan')->paginate(10);
 
             return response()->json($pelanggan, 200);
         }
@@ -69,8 +75,11 @@ class PelangganController extends Controller
      * @param  \App\Entities\Pelanggan  $pelanggan
      * @return \Illuminate\Http\Response
      */
-    public function show(Pelanggan $pelanggan)
+    public function show($id)
     {
+        $pelanggan = Pelanggan::with(['pesanan' => function($query){
+            $query->orderBy('tanggal')->withoutGlobalScope('notProduksi');
+        }])->get()->find($id);
         return response()->json($pelanggan);   
     }
 
