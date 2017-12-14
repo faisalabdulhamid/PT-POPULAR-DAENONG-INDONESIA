@@ -23,7 +23,7 @@
 	        	<div class="form-group">
 	        		<label for="batas_waktu" class="col-md-3 control-label">Batas Waktu</label>
 	        		<div class="col-md-9">
-	        			<input type="date" class="form-control" id="batas_waktu" v-model="data.batas_waktu" readonly="">
+	        			<input type="date" class="form-control" id="batas_waktu" v-model="data.batas_waktu">
 	        		</div>
 	        	</div>
 	        	<div class="form-group">
