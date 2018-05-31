@@ -19,5 +19,7 @@
     "sweetalert2": "^7.0.6",
     "vue": "^2.5.7"
   },
-  "dependencies": {}
+  "dependencies": {
+    "vue-router": "^3.0.1"
+  }
 }
